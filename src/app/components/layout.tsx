@@ -1,6 +1,6 @@
 "use client"
+
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,41 +13,43 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Collapse } from '@mui/material';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Image from 'next/image';
-import logo from './logo.png';
-import RoofingOutlinedIcon from '@mui/icons-material/RoofingOutlined';
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import { ReactNode } from 'react';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
-import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
+import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
+import { alignProperty } from '@mui/material/styles/cssUtils';
+
+
+
+
 
 const drawerWidth = 240;
 
-function Layout(props:any) {
+interface Props {
+
+  window?: () => Window;
+  children: ReactNode;
+}
+
+export default function Layout(props: Props) {
   const { window } = props;
   const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const [isCollapse, setIsCollapse] = React.useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-
+  console.log('pathname',pathname);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
-  };
-  const handleCollapse = () => {
-    setIsCollapse(!isCollapse);
   };
 
   const handleDrawerTransitionEnd = () => {
@@ -63,38 +65,35 @@ function Layout(props:any) {
   const drawer = (
     <div>
       <Toolbar>
-        <Image src={"Group.svg"} height={40} width={125} alt='Logo' style={{ marginLeft: "25px", marginTop: "5px" }}/>
-        <Typography variant="h6" noWrap component="div">
-          </Typography>
+        <Image src={"/Group.svg"} height={40} width={125} alt='Logo' style={{ marginLeft: "25px", marginTop: "5px" }}/>
       </Toolbar>
       <Divider />
-      <List sx={{ marginLeft: "25px", marginTop: "5px" }}>
-        {['Dashboard', 
-        'Employee', 
-        'Stock', 
-        'Sales',
-      ].map((text, index) => (
-          <ListItem key={text} disablePadding 
-          className={pathname.startsWith("/" + text.toLocaleLowerCase)? "":""}
+
+      <List >
+        {['Dashboard', 'Employee', 'Stock', 'Sales'].map((text, index) => (
+          <ListItem key={text} disablePadding
+
+           onClick={() => {
+           router.push("/" + text.toLowerCase());
+          }}
           >
-            <ListItemButton>
-              <ListItemIcon className={pathname.startsWith("/" + text.toLocaleLowerCase)? "":""}
-              >
-                {index === 0 && <RoofingOutlinedIcon/>}
-                {index === 1 && <BadgeOutlinedIcon/>}
-                {index === 2 && <SpaOutlinedIcon/>}
-                {index === 3 && <ShowChartOutlinedIcon/>}
+            <ListItemButton style={{ color: pathname.startsWith("/" + text.toLowerCase())
+           ? "#538151" : "#708090"}}>
+              <ListItemIcon  style={{ color: pathname.startsWith("/" + text.toLowerCase())
+           ? "#538151" : "#708090"}}>
+                {index === 0 && <HomeOutlinedIcon />}
+                {index === 1 && <PersonOutlineOutlinedIcon />}
+                {index === 2 && <SpaOutlinedIcon />}
+                {index === 3 && <CurrencyRupeeOutlinedIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
-              
       </List>
     </div>
   );
 
- 
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
@@ -103,13 +102,16 @@ function Layout(props:any) {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          bgcolor : "#ffffff",
-          color : "#000000",
+          background: 'linear-gradient(to right, #588158, #CFDEB1)', 
+          width: {
+            sm: `calc(100% - ${drawerWidth}px)`,
+          },
+          marginLeft: {
+            sm: `${drawerWidth}px`, 
+          },
         }}
       >
-        <Toolbar>
+       <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -117,7 +119,7 @@ function Layout(props:any) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
-            <MenuIcon />
+
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Dashboard
@@ -126,17 +128,20 @@ function Layout(props:any) {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      
+        sx={{
+            width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
+        
       >
         <Drawer
-          container={container}
+          container={container}          
           variant="temporary"
           open={mobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true,
+            keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
@@ -149,7 +154,7 @@ function Layout(props:any) {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth},
           }}
           open
         >
@@ -161,16 +166,8 @@ function Layout(props:any) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <main>{children}</main>
+          <main>{props.children}</main>
       </Box>
     </Box>
   );
 }
-
-Layout.propTypes = {
-
-  window: PropTypes.func,
-  children: PropTypes.array,
-};
-
-export default Layout;
