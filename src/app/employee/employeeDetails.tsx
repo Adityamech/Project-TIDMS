@@ -32,7 +32,7 @@ export default function EmployeeDetails() {
     const onSubmit = (data:any) => {
         console.log(data);
 
-        axios.post('/api/users', data)
+        axios.post('/api/employee', data)
             .then(response => {
                 console.log('Data', response.data);
                 
@@ -68,16 +68,23 @@ export default function EmployeeDetails() {
             <ToastContainer />
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='grid sm:grid-cols-1 md:grid-cols-2 gap-5'>
-                    <div>
+                <div>
+                <div style={{  marginBottom: '15px' }}>
+                        <TextField fullWidth size='small' id="outlined-basic" label="Joining Date" variant="outlined" />
+                    </div>
+                    <div style={{ marginBottom: '15px' }}>
                         <TextField fullWidth size='small' id="outlined-basic" label="Full Name" {...register("Name")} variant="outlined" />
                         <p className=''>{errors.Name?.message}</p>
                     </div>
-                    <div>
+                    <div style={{  marginBottom: '15px' }}>
                         <TextField fullWidth size='small' id="outlined-basic" label="Phone Number" {...register("PhoneNumber")} variant="outlined" />
                         <p>{errors.PhoneNumber?.message}</p>
                     </div>
-                    <div>
+                    <div style={{  marginBottom: '15px' }}>
+                        <TextField fullWidth size='small' id="outlined-basic" label="Address" variant="outlined" />
+                    </div>
+                    <div style={{  marginBottom: '15px' }}>
+                        
                         <FormControl fullWidth>
                             <InputLabel>Category</InputLabel>
                             <Select
@@ -92,9 +99,10 @@ export default function EmployeeDetails() {
                             </Select>
                         </FormControl>
                     </div>
-                    <div>
+                    <div style={{  marginBottom: '15px' }}>
                         <TextField fullWidth size='small' id="outlined-basic" label="Salary" variant="outlined" />
                     </div>
+                    
                 </div>
                 <div className=''>
                     <Button type="submit" variant="outlined" style={{ marginBottom: "6px" }} >

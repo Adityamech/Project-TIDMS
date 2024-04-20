@@ -36,7 +36,7 @@ export default function StockDetails() {
   const onSubmit = (data: FormData) => {
     console.log(data);
 
-    axios.post('/api/stock', data)
+    axios.post('/api/sales', data)
       .then(response => {
         console.log('Data', response.data);
         toast.success('Saved', {

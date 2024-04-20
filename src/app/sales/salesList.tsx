@@ -24,7 +24,7 @@ export default function StickyHeadTable() {
   },[]);
 
   const getData = () => {
-    axios.get('/api/employee')
+    axios.get('/api/sales')
       .then(response => {
         console.log('Data', response);
         setData(response.data);
@@ -49,10 +49,8 @@ export default function StickyHeadTable() {
       console.log('Row', row);
   };
 
-// const date = (row: React.ChangeEvent<HTMLInputElement>) => {
+//const date = (row: React.ChangeEvent<HTMLInputElement>) => {
 // console.log('Row', row);};
-
-
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -60,41 +58,36 @@ export default function StickyHeadTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-            <TableCell
+            
+                <TableCell
                   align="center"
                   style={{ minWidth: 70 }}
                 >
-                  Employee ID
+                  Date
                 </TableCell>
                 <TableCell
                   align="center"
                   style={{ minWidth: 70 }}
                 >
-                  Name
+                  Product
                 </TableCell>
                 <TableCell
                   align="center"
                   style={{ minWidth: 70 }}
                 >
-                  Phone Number
+                  Price(kg/gm)
                 </TableCell>
                 <TableCell
                   align="center"
                   style={{ minWidth: 70 }}
                 >
-                  Category
+                  Quantity
                 </TableCell>
                 <TableCell
                   align="center"
                   style={{ minWidth: 70 }}
                 >
-                  Salary
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ minWidth: 70 }}
-                >
-                  Status
+                  Total Price
                 </TableCell>
             </TableRow>
           </TableHead>
@@ -104,27 +97,21 @@ export default function StickyHeadTable() {
               .map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row}>
+                        
                         <TableCell key={index} align="right">
-                          (row.employee_id)
+                          (row.date)
                         </TableCell>
                         <TableCell key={index} align="right">
-                          (row.name)
+                          (row.product)
                         </TableCell>
                         <TableCell key={index} align="right">
-                          (row.phone_number)
+                          (row.price(kg/gm))
                         </TableCell>
                         <TableCell key={index} align="right">
-                          (row.category)
+                          (row.quantity)
                         </TableCell>
                         <TableCell key={index} align="right">
-                          (row.salary)
-                        </TableCell>
-                        <TableCell key={index} align="right">
-                          (row.status)
-                        </TableCell>
-                        <TableCell 
-                        key={index} align="right">
-                          (row.)
+                          (row.total_price)
                         </TableCell>
                         <TableCell key={index} align="right">
                           <div className='flex justify-center'>
