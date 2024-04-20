@@ -29,25 +29,28 @@ export default function Employee() {
         </div>
       ) : (
         <div>
-          <h2 className='font-bold' style={{ marginBottom: '8px' }}>
+          <h2 className='font-bold' style={{ marginBottom: '5px' }}>
             Employee
           </h2>
 
-          <div className='flex justify-between'>
+          <div style={{  marginBottom: '8px' }}>
             <input
+              style={{ 
+                marginRight: "5px",
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                padding: '10px',
+              }}
               type='text'
               placeholder='Search Employee'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ marginBottom: '5px', marginTop: '-20px', border: '1px solid #ccc', borderRadius: '4px' }}
             />
-
             <Button
-              className='flex justify-between'
               variant='outlined'
               onClick={() => setAddEmployee(true)}
-              style={{ marginBottom: '6px' }}
               endIcon={<AddCircleIcon />}
+              
             >
               Add
             </Button>

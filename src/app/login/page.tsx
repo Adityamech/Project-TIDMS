@@ -1,10 +1,11 @@
 "use client"
+
 import React, { useState } from "react";
 import { Button, Grid, Paper, TextField, Typography,IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Image from "next/image";
 
-const Signup = () => {
+const Login = () => {
     const [name, setName] = useState("");
     const [mobile, setMobile] = useState("");
     const [password, setPassword] = useState("");
@@ -28,7 +29,7 @@ const Signup = () => {
     };
     const handleSubmit = () => {
         if (!/[!@#$%^&*(),.?"{}|<>]/.test(password) || !/\d/.test(password)) {
-            setError("Password should contain at least one special character and one number .");
+            setError("Password should contain at least one special character and One Number.");
         } else {
             setError("");
         }
@@ -40,13 +41,12 @@ const Signup = () => {
                 <Grid>
                     <Image
                         src="/Group.svg"
-                        width={200}
+                        width={175}
                         height={50}
                         alt="first image"
-                        style={{ marginLeft: "35px", marginBottom: "5px", marginTop: "-20px" }}
+                        style={{ marginLeft: "60px", marginBottom: "5px", marginTop: "10px" }}
                     />
-                    <Typography variant="body1" style={{ marginTop:"-5%", marginLeft: "40%" ,fontWeight:"600"}}>Sign Up</Typography>
-                    <Typography variant="caption" style={{ marginLeft: "25%" }}>Create your account here</Typography>
+                    <Typography variant="body1" style={{ marginTop: "10px", marginBottom: "2px", marginLeft: "45%" ,fontWeight:"100"}}>Login</Typography>
                 </Grid>
                 <TextField
                     sx={{ height: "35px", marginTop:"15px"}}
@@ -104,13 +104,13 @@ const Signup = () => {
                 {error && <Typography variant="caption" color="error" style={{ marginLeft: "25%" }}>{error}</Typography>}
                 <Button 
                 variant="contained" 
-                sx={{width:"40%",backgroundColor:"green", marginTop:"20px",borderRadius:"20px",marginLeft:"30%"}} 
+                sx={{width:"40%",backgroundColor:"green", marginTop:"30px", marginBottom:"20px", borderRadius:"20px",marginLeft:"30%"}} 
                 onClick={handleSubmit}
                 disabled={isSubmitDisabled}
-                > signup</Button>
+                > Login</Button>
 
             </Paper>
         </Grid>
     );
 };
-export default Signup;
+export default Login;
