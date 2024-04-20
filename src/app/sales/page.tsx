@@ -33,7 +33,15 @@ export default function Employee() {
             Sales
           </h2>
 
-          <div style={{  marginBottom: '8px' }}>
+          <div style={{ marginTop:"10px", marginBottom: '8px' }}>
+          <Button
+              variant='outlined'
+              onClick={() => setAddSales(true)}
+              endIcon={<AddCircleIcon />}
+              style={{marginRight:"5px"}}
+            >
+              Add
+            </Button>
             <input
               style={{ 
                 marginRight: "5px",
@@ -46,14 +54,6 @@ export default function Employee() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button
-              variant='outlined'
-              onClick={() => setAddSales(true)}
-              endIcon={<AddCircleIcon />}
-              
-            >
-              Add
-            </Button>
           </div>
           <SalesList />
         </div>
