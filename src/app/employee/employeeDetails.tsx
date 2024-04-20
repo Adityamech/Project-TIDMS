@@ -11,8 +11,13 @@ import { Button } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const schema = yup.object({
+    Date:yup.date().required("Please Enter the date"),
     Name: yup.string().required("Please Enter Name"),
     PhoneNumber: yup.string().required("Please Enter Mobile Number"),
 }).required();
@@ -69,16 +74,21 @@ export default function EmployeeDetails() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                <div style={{  marginBottom: '15px' }}>
-                        <TextField fullWidth size='small' id="outlined-basic" label="Joining Date" variant="outlined" />
+                    <div style={{marginBottom:"15px"}}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DatePicker']} >
+                            <DatePicker label="Joining Date" />
+                            </DemoContainer>
+                            <p style={{color:"#EF5350"}}>{errors.Date?.message}</p>
+                        </LocalizationProvider>
                     </div>
                     <div style={{ marginBottom: '15px' }}>
                         <TextField fullWidth size='small' id="outlined-basic" label="Full Name" {...register("Name")} variant="outlined" />
-                        <p className=''>{errors.Name?.message}</p>
+                        <p style={{color:"#EF5350"}}>{errors.Name?.message}</p>
                     </div>
                     <div style={{  marginBottom: '15px' }}>
                         <TextField fullWidth size='small' id="outlined-basic" label="Phone Number" {...register("PhoneNumber")} variant="outlined" />
-                        <p>{errors.PhoneNumber?.message}</p>
+                        <p style={{color:"#EF5350"}}>{errors.PhoneNumber?.message}</p>
                     </div>
                     <div style={{  marginBottom: '15px' }}>
                         <TextField fullWidth size='small' id="outlined-basic" label="Address" variant="outlined" />

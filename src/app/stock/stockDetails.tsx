@@ -11,14 +11,18 @@ import { Button } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface FormData {
-  Date: number;
+  Date: Date;
   Product: string;
 }
 
 const schema = yup.object({
-  Date: yup.number().required('Please Enter the Date'),
+  Date: yup.date().required('Please Enter the Date'),
   Product: yup.string().required('Select the Product'),
 }).required();
 
@@ -72,9 +76,13 @@ export default function StockDetails() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <div style={{ marginBottom: '15px' }}>
-            <TextField fullWidth size='small' id="date" label="Date" {...register('Date')} variant="outlined" />
-            <p className=''>{errors.Date?.message}</p>
+        <div style={{marginBottom:"15px"}}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']} >
+                  <DatePicker label="Select Date" />
+                </DemoContainer>
+                <p style={{color:"#EF5350"}}>{errors.Date?.message}</p>
+              </LocalizationProvider>
           </div>
           <div style={{ marginBottom: '15px' }}>
             <FormControl fullWidth>
@@ -92,7 +100,7 @@ export default function StockDetails() {
                 <MenuItem value={"Green Tea"}>Green Tea</MenuItem>
               </Select>
             </FormControl>
-            <p>{errors.Product?.message}</p>
+            <p style={{color:"#EF5350"}}>{errors.Product?.message}</p>
           </div>
           <div style={{ marginBottom: '15px' }}>
             <TextField fullWidth size='small' id="price" label="Price (kg/gm)" variant="outlined" />
