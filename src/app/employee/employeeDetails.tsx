@@ -76,7 +76,7 @@ export default function EmployeeDetails() {
                 <div>
                     <div style={{marginBottom:"15px"}}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker']} >
+                            <DemoContainer components={['DatePicker']} {...register("Date")}>
                             <DatePicker label="Joining Date" />
                             </DemoContainer>
                             <p style={{color:"#EF5350"}}>{errors.Date?.message}</p>

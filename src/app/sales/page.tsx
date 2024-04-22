@@ -29,7 +29,7 @@ export default function Employee() {
         </div>
       ) : (
         <div>
-          <h2 className='font-bold' style={{ marginBottom: '5px' }}>
+          <h2 style={{ marginTop:'0px', marginBottom: '20px' }}>
             Sales
           </h2>
 
