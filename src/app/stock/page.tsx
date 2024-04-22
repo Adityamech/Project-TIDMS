@@ -21,7 +21,7 @@ export default function Employee() {
               className='mr-5 cursor-pointer'
               onClick={() => setAddStock(false)}
             />
-            <h2 className='font-bold' style={{ marginBottom: '8px' }}>
+            <h2 style={{ marginBottom: '8px' }}>
               Add Stock
             </h2>
           </div>
@@ -29,7 +29,7 @@ export default function Employee() {
         </div>
       ) : (
         <div>
-          <h2 className='font-bold' style={{ marginBottom: '5px' }}>
+          <h2 style={{ marginTop:'0px', marginBottom: '20px' }}>
             Stock
           </h2>
 

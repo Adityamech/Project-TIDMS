@@ -29,7 +29,7 @@ export default function Employee() {
         </div>
       ) : (
         <div>
-          <h2 className='font-bold' style={{ marginBottom: '5px' }}>
+          <h2 style={{ marginTop:'0px', marginBottom: '20px' }}>
             Employee
           </h2>
 
@@ -54,7 +54,6 @@ export default function Employee() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            
           </div>
           <EmployeeList />
         </div>

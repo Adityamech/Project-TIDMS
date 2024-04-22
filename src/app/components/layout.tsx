@@ -27,8 +27,6 @@ import { alignProperty } from '@mui/material/styles/cssUtils';
 
 
 
-
-
 const drawerWidth = 240;
 
 interface Props {
