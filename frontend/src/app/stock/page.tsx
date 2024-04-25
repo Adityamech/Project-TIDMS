@@ -8,7 +8,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import StockDetails from './stockDetails';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-export default function Employee() {
+export default function Stock() {
   const [addStock, setAddStock] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 

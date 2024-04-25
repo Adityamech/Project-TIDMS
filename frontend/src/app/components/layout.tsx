@@ -20,6 +20,7 @@ import { ReactNode } from 'react';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
@@ -70,11 +71,12 @@ export default function Layout(props: Props) {
       <Divider />
 
       <List >
-        {['Dashboard', 'Employee', 'Stock', 'Sales'].map((text, index) => (
+        {['Dashboard', 'Employee', 'Stock', 'Orders', 'Sales'].map((text, index) => (
           <ListItem key={text} disablePadding
 
-           onClick={() => {
+           onClick={() => { 
            router.push("/" + text.toLowerCase());
+           
           }}
           >
             <ListItemButton style={{ color: pathname.startsWith("/" + text.toLowerCase())
@@ -84,7 +86,8 @@ export default function Layout(props: Props) {
                 {index === 0 && <HomeOutlinedIcon />}
                 {index === 1 && <PersonOutlineOutlinedIcon />}
                 {index === 2 && <SpaOutlinedIcon />}
-                {index === 3 && <CurrencyRupeeOutlinedIcon />}
+                {index === 3 && <LocalMallOutlinedIcon />}
+                {index === 4 && <CurrencyRupeeOutlinedIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
