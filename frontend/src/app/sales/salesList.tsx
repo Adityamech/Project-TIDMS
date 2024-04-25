@@ -89,6 +89,12 @@ export default function StickyHeadTable() {
                 >
                   Total Price
                 </TableCell>
+                <TableCell
+                  align="center"
+                  style={{ minWidth: 70 }}
+                >
+                  Status
+                </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -112,6 +118,9 @@ export default function StickyHeadTable() {
                         </TableCell>
                         <TableCell key={index} align="right">
                           (row.total_price)
+                        </TableCell>
+                        <TableCell key={index} align="right">
+                          (row.status)
                         </TableCell>
                         <TableCell key={index} align="right">
                           <div className='flex justify-center'>
