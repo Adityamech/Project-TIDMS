@@ -18,8 +18,8 @@ const employeeSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: Number,
-    // required: true,
-    // unique: true
+    required: true,
+    unique: true,
   },
 
   category: {
