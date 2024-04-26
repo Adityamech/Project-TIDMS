@@ -56,7 +56,7 @@ export default function StickyHeadTable() {
       const { empId } = row; // Extract empId from the row object
   
       // Send delete request to the backend to delete the record
-      await axios.delete(`http://localhost:4000/employee-details/${empId}`);
+      //await axios.delete(`http://localhost:4000/employee-details/${empId}`);
   
       // If the delete request is successful, update the client-side state to reflect the change
       setData(prevData => prevData.filter(item => item.empId !== empId));
