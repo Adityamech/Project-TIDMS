@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const EmployeeEditComponent = () => {
+const EmployeeEdit = () => {
     const [formData, setFormData] = useState({
         id: 'employee_id', // Provide the ID of the employee you want to edit
         empdate: 'updated_date',
@@ -31,4 +31,4 @@ const EmployeeEditComponent = () => {
     );
 };
 
-export default EmployeeEditComponent;
+export default EmployeeEdit;

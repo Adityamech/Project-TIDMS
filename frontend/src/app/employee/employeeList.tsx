@@ -46,17 +46,28 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
-  const editRecord = (row) => {
-    console.log('Edit record:', row);
-    // Implement editing functionality here
-  };
+  // const editRecord = (row) => {
+  //   console.log('Edit record:', row);
+  //   // Implement editing functionality here
+  // };
 
-  const deleteRecord = (row) => {
-    console.log('Edit record:', row);
-    
-
-    // Implement editing functionality here
+  const deleteRecord = async (row: { empId: number }) => {
+    try {
+      const { empId } = row; // Extract empId from the row object
+  
+      // Send delete request to the backend to delete the record
+      //await axios.delete(`http://localhost:4000/employee-details/${empId}`);
+  
+      // If the delete request is successful, update the client-side state to reflect the change
+      setData(prevData => prevData.filter(item => item.empId !== empId));
+  
+      console.log('Record deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting record:', error);
+      // Handle error if delete request fails
+    }
   };
+  
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>

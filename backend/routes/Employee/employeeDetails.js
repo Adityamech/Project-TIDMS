@@ -19,6 +19,26 @@ router.get("/employee-details", async(req, res)=> {
         res.status(500).json({ message: 'Internal server error' });
     }    
 
-})
+});
+
+
+router.delete('/employee-details/:empId', async (req, res) => {
+    const { empId } = req.params;
+    try {
+        // Find and delete employee by ID
+        const deletedEmployee = await Employee.findOneAndDelete({ empId: empId });
+        if (deletedEmployee) {
+            console.log('Employee deleted:', deletedEmployee);
+            res.status(200).json({ message: `Employee with ID ${empId} deleted successfully.` });
+        } else {
+            res.status(404).json({ error: `Employee with ID ${empId} not found.` });
+        }
+    } catch (error) {
+        console.error('Error deleting employee:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 module.exports = router;
