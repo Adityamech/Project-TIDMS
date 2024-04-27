@@ -16,6 +16,8 @@ router.post("/employee-form", async(req, res)=> {
             salary: req.body.salary
         });
 
+        
+
         // Save the new employee to the database
         await newEmployee.save();
 

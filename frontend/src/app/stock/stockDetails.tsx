@@ -6,7 +6,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface FormData {
-    stockDate: string;
     product: string;
     price: number;
     quantity: number;
@@ -14,7 +13,6 @@ interface FormData {
 
 const StockDetails: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
-        stockDate: '',
         product: '',
         price : '',
         quantity : '',
@@ -60,25 +58,22 @@ const StockDetails: React.FC = () => {
 
 
     return (
-        <div style={{ width: '50%', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+        <div style={{ width: '50%', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
             <h2 style={{ textAlign: 'center' }}>Stock Details</h2>
             {successMessage && <p style={{ textAlign: 'center', color: 'green' }}>{successMessage}</p>}
             <form onSubmit={handleSubmit}>
+
             <div style={{ marginBottom: '20px' }}>
-            <label htmlFor="stockDate">Date:</label>
-            <input type="date" id="stockDate" value={formData.stockDate} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-        </div>
-                <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="product">Product</label>
-                    <input type="text" placeholder="Enter the product" id="product" value={formData.product} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                    <label htmlFor="product">product:</label>
+                    <input type="string" placeholder="Enter the product" id="product" value={formData.product} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5'  }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="price">Price</label>
-                    <input type="text" placeholder="Enter the price" id="price" value={formData.price} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                    <input type="number" placeholder="Enter the price" id="price" value={formData.price} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5'  }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="quantity">Quantity:</label>
-                    <input type="text" placeholder="Enter the Quantity" id="quantity" value={formData.quantity} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                    <input type="number" placeholder="Enter the Quantity" id="quantity" value={formData.quantity} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5'  }} />
                 </div>
                 <div>
                     <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer' }}>Submit</button>

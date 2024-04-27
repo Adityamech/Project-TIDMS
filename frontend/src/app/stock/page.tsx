@@ -14,6 +14,7 @@ export default function Stock() {
 
   return (
     <Layout>
+      <div style={{ backgroundColor: '#f5f5f5', padding: '20px', borderRadius: '5px' }}>
       {addStock ? (
         <div>
           <div className='flex justify-start'>
@@ -58,6 +59,7 @@ export default function Stock() {
           <StockList />
         </div>
       )}
+      </div>
     </Layout>
   );
 }

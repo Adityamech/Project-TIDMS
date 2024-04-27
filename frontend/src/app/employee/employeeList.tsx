@@ -8,18 +8,19 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import EditIcon from '@mui/icons-material/Edit';
-import CircularProgress from '@mui/material/CircularProgress'; // Added CircularProgress for loading indicator
+import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { METHODS } from 'http';
-
 
 export default function StickyHeadTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(true); // Added error state
+  const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedRow, setEditedRow] = useState(null);
+  const categoryOptions = ['manager', 'developer', 'tester'];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +30,7 @@ export default function StickyHeadTable() {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError('Error fetching data. Please try again later.'); // Set error state
+        setError('Error fetching data. Please try again later.');
         setLoading(false);
       }
     };
@@ -46,43 +47,62 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
-  // const editRecord = (row) => {
-  //   console.log('Edit record:', row);
-  //   // Implement editing functionality here
-  // };
+  const editRecord = row => {
+    setIsEditing(true);
+    setEditedRow(row);
+  };
 
-  const deleteRecord = async (row: { empId: number }) => {
+  const saveEditedRecord = async () => {
     try {
-      const { empId } = row; // Extract empId from the row object
+      // Send a PUT request to update the edited row
+      await axios.put(`http://localhost:4000/employee-details/${editedRow.empId}`, editedRow);
+      setIsEditing(false);
+      setEditedRow(null);
+      console.log('Record edited successfully.');
   
-      // Send delete request to the backend to delete the record
-      //await axios.delete(`http://localhost:4000/employee-details/${empId}`);
+      // Update the data state with the edited row
+      setData(prevData => prevData.map(item => (item.empId === editedRow.empId ? editedRow : item)));
+    } catch (error) {
+      console.error('Error editing record:', error);
+      // Handle error if edit request fails
+    }
+  };
   
-      // If the delete request is successful, update the client-side state to reflect the change
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setEditedRow(null);
+  };
+
+  const deleteRecord = async row => {
+    try {
+      const { empId } = row;
+      await axios.delete(`http://localhost:4000/employee-details/${empId}`);
       setData(prevData => prevData.filter(item => item.empId !== empId));
-  
       console.log('Record deleted successfully.');
     } catch (error) {
       console.error('Error deleting record:', error);
-      // Handle error if delete request fails
     }
   };
+
+  const handleEditInputChange = (e, columnName) => {
+    setEditedRow({ ...editedRow, [columnName]: e.target.value });
+  };
+
   
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell align="center" style={{ minWidth: 70 }}>Date of Joining</TableCell>
-              <TableCell align="center" style={{ minWidth: 70 }}>Employee ID</TableCell>
-              <TableCell align="center" style={{ minWidth: 70 }}>Name</TableCell>
-              <TableCell align="center" style={{ minWidth: 70 }}>Phone Number</TableCell>
-              <TableCell align="center" style={{ minWidth: 70 }}>Category</TableCell>
-              <TableCell align="center" style={{ minWidth: 70 }}>Salary</TableCell>
-              <TableCell align="center" style={{ minWidth: 70 }}>Status</TableCell>
-              <TableCell align="center" style={{ minWidth: 70 }}>Actions</TableCell>
+            <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Date of Joining</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Employee ID</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Name</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Phone Number</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Category</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Salary</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -97,24 +117,84 @@ export default function StickyHeadTable() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    <TableCell align="center" style={{ minWidth: 70 }}>{row.empdate}</TableCell>
-                    <TableCell align="center" style={{ minWidth: 70 }}>{row.empId}</TableCell>
-                    <TableCell align="center" style={{ minWidth: 70 }}>{row.fullName}</TableCell>
-                    <TableCell align="center" style={{ minWidth: 70 }}>{row.phoneNumber}</TableCell>
-                    <TableCell align="center" style={{ minWidth: 70 }}>{row.category}</TableCell>
-                    <TableCell align="center" style={{ minWidth: 70 }}>{row.salary}</TableCell>
-                    <TableCell align="center" style={{ minWidth: 70 }}>{row.status}</TableCell>
                     <TableCell align="center" style={{ minWidth: 70 }}>
-    <div className='flex justify-center'>
-        <div className='cursor-pointer #00FF00' onClick={() => editRecord(row)}>
-            <EditIcon />
-        </div>
-        <div className='cursor-pointer #FF0000' onClick={() => deleteRecord(row)}>
-            <DeleteIcon />
-        </div>
-    </div>
-</TableCell>
-
+                      {isEditing && editedRow.empId === row.empId ? (
+                        <input
+                          type="date"
+                          value={editedRow.empdate}
+                          onChange={e => handleEditInputChange(e, 'empdate')}
+                        />
+                      ) : (
+                        row.empdate
+                      )}
+                    </TableCell>
+                    <TableCell align="center" style={{ minWidth: 70 }}>{row.empId}</TableCell>
+                    <TableCell align="center" style={{ minWidth: 70 }}>
+                      {isEditing && editedRow.empId === row.empId ? (
+                        <input
+                          type="text"
+                          value={editedRow.fullName}
+                          onChange={e => handleEditInputChange(e, 'fullName')}
+                        />
+                      ) : (
+                        row.fullName
+                      )}
+                    </TableCell>
+                    <TableCell align="center" style={{ minWidth: 70 }}>
+                      {isEditing && editedRow.empId === row.empId ? (
+                        <input
+                          type="text"
+                          value={editedRow.phoneNumber}
+                          onChange={e => handleEditInputChange(e, 'phoneNumber')}
+                        />
+                      ) : (
+                        row.phoneNumber
+                      )}
+                    </TableCell>
+                    <TableCell align="center" style={{ minWidth: 70 }}>
+                      {isEditing && editedRow.empId === row.empId ? (
+                        <select
+                          value={editedRow.category}
+                          onChange={e => handleEditInputChange(e, 'category')}
+                        >
+                          {categoryOptions.map(option => (
+                            <option key={option} value={option}>{option}</option>
+                          ))}
+                        </select>
+                      ) : (
+                        row.category
+                      )}
+                    </TableCell>
+                    <TableCell align="center" style={{ minWidth: 70 }}>
+                      {isEditing && editedRow.empId === row.empId ? (
+                        <input
+                          type="number"
+                          value={editedRow.salary}
+                          onChange={e => handleEditInputChange(e, 'salary')}
+                        />
+                      ) : (
+                        row.salary
+                      )}
+                    </TableCell>
+                    <TableCell align="center" style={{ minWidth: 70 }}>
+                      <div className='flex justify-center'>
+                        {isEditing && editedRow.empId === row.empId ? (
+                          <>
+                            <button onClick={saveEditedRecord}>Save</button>
+                            <button onClick={cancelEdit}>Cancel</button>
+                          </>
+                        ) : (
+                          <>
+                            <div className='cursor-pointer #00FF00' onClick={() => editRecord(row)}>
+                              <EditIcon />
+                            </div>
+                            <div className='cursor-pointer #FF0000' onClick={() => deleteRecord(row)}>
+                              <DeleteIcon />
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))
             )}

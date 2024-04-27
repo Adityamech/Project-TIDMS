@@ -1,33 +1,20 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-interface FormData {
-    orderDate: string;
-    productId: string;
-    category: string;
-    price: string;
-    quantity: string;
-}
 
 const OrdersDetails: React.FC = () => {
-    const [formData, setFormData] = useState<FormData>({
+    const [formData, setFormData] = useState({
         orderDate: '',
         productId: '',
         category: 'Class 1',
         price: '',
-        quantity: '', // Default value
+        quantity: '',
     });
 
-    const [successMessage, setSuccessMessage] = useState<string>('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
         let newValue = value;
-        // For the date field, extract only the date portion
         if (id === 'orderDate') {
             const date = new Date(value);
             if (!isNaN(date.getTime())) {
@@ -40,8 +27,6 @@ const OrdersDetails: React.FC = () => {
         });
     }
     
-    
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
@@ -51,11 +36,10 @@ const OrdersDetails: React.FC = () => {
                 setTimeout(() => {
                     setSuccessMessage('');
                     resetForm();
-                }, 3000); // Reset form after 3 seconds
+                }, 3000);
             }
-            console.log("Data added successfully")
         } catch (err) {
-            console.log(err)
+            console.error(err);
         }
     }
 
@@ -70,37 +54,35 @@ const OrdersDetails: React.FC = () => {
     }
 
     return (
-        <div style={{ width: '50%', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-            <h2 style={{ textAlign: 'center' }}>Order Details</h2>
-            {successMessage && <p style={{ textAlign: 'center', color: 'green' }}>{successMessage}</p>}
+        <div>
+            <h2>Order Details</h2>
+            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '20px' }}>
-            <label htmlFor="orderDate">Date:</label>
-            <input type="date" id="empdate" value={formData.orderDate} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
-        </div>
                 <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="productId">Product ID:</label>
-                    <input type="text" placeholder="Enter the product ID" id="productId" value={formData.productId} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                    <label htmlFor="orderDate" style={{ fontSize: '18px' }}>Date:</label><br />
+                    <input type="date" id="orderDate" value={formData.orderDate} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="category">Category:</label>
-                    <select id="category" value={formData.category} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}>
-                        <option value="Manager">Class 1</option>
-                        <option value="Developer">Class 2</option>
-                        <option value="Tester">Class 3</option>
+                    <label htmlFor="productId" style={{ fontSize: '18px' }}>Product ID:</label><br />
+                    <input type="text" placeholder="Enter the product ID" id="productId" value={formData.productId} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
+                </div>
+                <div style={{ marginBottom: '20px' }}>
+                    <label htmlFor="category" style={{ fontSize: '18px' }}>Category:</label><br />
+                    <select id="category" value={formData.category} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }}>
+                        <option value="Class 1">Class 1</option>
+                        <option value="Class 2">Class 2</option>
+                        <option value="Class 3">Class 3</option>
                     </select>
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="Price">Price:</label>
-                    <input type="text" placeholder="Enter the Price" id="price" value={formData.price} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                    <label htmlFor="price" style={{ fontSize: '18px' }}>Price:</label><br />
+                    <input type="text" placeholder="Enter the Price" id="price" value={formData.price} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="quantity">quantity:</label>
-                    <input type="text" placeholder="Enter the quantity" id="quantity" value={formData.quantity} onChange={handleChange} style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+                    <label htmlFor="quantity" style={{ fontSize: '18px' }}>Quantity:</label><br />
+                    <input type="text" placeholder="Enter the quantity" id="quantity" value={formData.quantity} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
-                <div>
-                    <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer' }}>Submit</button>
-                </div>
+                <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }}>Submit</button>
             </form>
         </div>
     );

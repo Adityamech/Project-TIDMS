@@ -79,10 +79,11 @@ export default function Layout(props: Props) {
            
           }}
           >
-            <ListItemButton style={{ color: pathname.startsWith("/" + text.toLowerCase())
-           ? "#538151" : "#708090"}}>
+            <ListItemButton style={{ backgroundColor: pathname.startsWith("/" + text.toLowerCase())
+           ? "#538151" : "", color: pathname.startsWith("/" + text.toLowerCase())
+           ? "#ffffff" : "#708090"}}>
               <ListItemIcon  style={{ color: pathname.startsWith("/" + text.toLowerCase())
-           ? "#538151" : "#708090"}}>
+           ? "#ffffff" : "#708090"}}>
                 {index === 0 && <HomeOutlinedIcon />}
                 {index === 1 && <PersonOutlineOutlinedIcon />}
                 {index === 2 && <SpaOutlinedIcon />}

@@ -7,7 +7,7 @@ router.post("/stock-form", async(req, res)=> {
     try {
 
         const newStock = new Stock({
-            stockDate : req.body.stockDate,
+            
             product: req.body.product,
             price: req.body.price,
             quantity: req.body.quantity,

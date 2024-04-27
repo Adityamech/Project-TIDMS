@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 
 // Define the schema for the example model
 const stockSchema = new mongoose.Schema({
-  stockDate: {
-    type: String,
-    // required: true
-  },
+  // stockDate: {
+  //   type: String,
+  //   // required: true
+  // },
   product: {
     type: String,
     required: true,
-    unique : true,
+    unique: true
+
   },
   price: {
     type: Number,
@@ -18,7 +19,7 @@ const stockSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    // required: true,
+    required: true,
     // unique: true
   },
 
