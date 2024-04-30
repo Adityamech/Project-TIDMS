@@ -12,20 +12,29 @@ import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function StickyHeadTable() {
+interface Row {
+  product: string;
+  price: number;
+  quantity: number;
+}
+
+export default function StickyHeadTable(): JSX.Element {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedRow, setEditedRow] = useState(null);
-
+  const [editedRow, setEditedRow] = useState<Row | null>(null);
 
   useEffect(() => {
+    fetchData();
+  }, []);
+
+
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/stock-details');
+        const response = await axios.get<Row[]>('http://localhost:4000/stock-details');
         setData(response.data);
         setLoading(false);
       } catch (error) {
@@ -35,68 +44,66 @@ export default function StickyHeadTable() {
       }
     };
 
-    fetchData();
-  }, []);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const editRecord = row => {
+  const editRecord = (row: Row) => {
     setIsEditing(true);
     setEditedRow(row);
   };
 
   const saveEditedRecord = async () => {
     try {
-      // Send a PUT request to update the edited row
-      await axios.put(`http://localhost:4000/stock-details/${editedRow.product}`, editedRow);
-      setIsEditing(false);
-      setEditedRow(null);
-      console.log('Record edited successfully.');
-  
-      // Update the data state with the edited row
-      setData(prevData => prevData.map(item => (item.product === editedRow.product ? editedRow : item)));
+      if (editedRow) {
+        await axios.put(`http://localhost:4000/stock-details/${editedRow.product}`, editedRow);
+        setIsEditing(false);
+        setEditedRow(null);
+        console.log('Record edited successfully.');
+        fetchData(); // Fetch updated data
+      }
     } catch (error) {
       console.error('Error editing record:', error);
-      // Handle error if edit request fails
     }
   };
-  
+
   const cancelEdit = () => {
     setIsEditing(false);
     setEditedRow(null);
   };
 
-  const deleteRecord = async row => {
+  const deleteRecord = async (row: Row) => {
     try {
       const { product } = row;
       await axios.delete(`http://localhost:4000/stock-details/${product}`);
+
       setData(prevData => prevData.filter(item => item.product !== product));
+
       console.log('Record deleted successfully.');
     } catch (error) {
       console.error('Error deleting record:', error);
     }
   };
 
-  const handleEditInputChange = (e, columnName) => {
-    setEditedRow({ ...editedRow, [columnName]: e.target.value });
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>, columnName: string) => {
+    if (editedRow) {
+      setEditedRow({ ...editedRow, [columnName]: e.target.value });
+    }
   };
-
-  
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-            <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Product</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Product</TableCell>
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Price</TableCell>
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Quantity</TableCell>
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Actions</TableCell>
@@ -105,7 +112,7 @@ export default function StickyHeadTable() {
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={7} align="center">
+                <TableCell colSpan={4} align="center">
                   {error ? error : <CircularProgress />}
                 </TableCell>
               </TableRow>
@@ -114,22 +121,11 @@ export default function StickyHeadTable() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    
+                    <TableCell align="center" style={{ minWidth: 70 }}>{row.product}</TableCell>
                     <TableCell align="center" style={{ minWidth: 70 }}>
-                      {isEditing && editedRow.product === row.product ? (
+                      {isEditing && editedRow?.product === row.product ? (
                         <input
-                          type="text"
-                          value={editedRow.product}
-                          onChange={e => handleEditInputChange(e, 'product')}
-                        />
-                      ) : (
-                        row.product
-                      )}
-                    </TableCell>
-                    <TableCell align="center" style={{ minWidth: 70 }}>
-                      {isEditing && editedRow.product === row.product ? (
-                        <input
-                          type="text"
+                          type="number"
                           value={editedRow.price}
                           onChange={e => handleEditInputChange(e, 'price')}
                         />
@@ -138,7 +134,7 @@ export default function StickyHeadTable() {
                       )}
                     </TableCell>
                     <TableCell align="center" style={{ minWidth: 70 }}>
-                      {isEditing && editedRow.product === row.product ? (
+                      {isEditing && editedRow?.product === row.product ? (
                         <input
                           type="number"
                           value={editedRow.quantity}
@@ -150,17 +146,17 @@ export default function StickyHeadTable() {
                     </TableCell>
                     <TableCell align="center" style={{ minWidth: 70 }}>
                       <div className='flex justify-center'>
-                        {isEditing && editedRow.product === row.product ? (
+                        {isEditing && editedRow?.product === row.product ? (
                           <>
                             <button onClick={saveEditedRecord}>Save</button>
                             <button onClick={cancelEdit}>Cancel</button>
                           </>
                         ) : (
                           <>
-                            <div className='cursor-pointer #00FF00' onClick={() => editRecord(row)}>
+                            <div className='cursor-pointer edit-button' onClick={() => editRecord(row)}>
                               <EditIcon />
                             </div>
-                            <div className='cursor-pointer #FF0000' onClick={() => deleteRecord(row)}>
+                            <div className='cursor-pointer delete-button' onClick={() => deleteRecord(row)}>
                               <DeleteIcon />
                             </div>
                           </>
