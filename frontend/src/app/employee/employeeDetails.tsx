@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Snackbar } from '@mui/material';
 
 const EmployeeDetails: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +14,11 @@ const EmployeeDetails: React.FC = () => {
     });
 
     const [successMessage, setSuccessMessage] = useState('');
+    const router = useRouter();
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    
+
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
@@ -26,7 +33,18 @@ const EmployeeDetails: React.FC = () => {
             ...formData,
             [id]: newValue
         });
+        
     }
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+      };
+      const handleButtonClick = () => {
+        // Your form submission logic here
+        // For demonstration purposes, I'm just setting the snackbar to open
+        setSnackbarOpen(true);
+      };
+    
+    
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -89,10 +107,22 @@ const EmployeeDetails: React.FC = () => {
                     <label htmlFor="salary" style={{ fontSize: '18px' }}>Salary:</label><br />
                     <input type="text" placeholder="Enter the salary" id="salary" value={formData.salary} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
-                <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }}>Submit</button>
+                <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }} 
+                  onClick={() => {
+                    handleButtonClick();
+                    window.location.reload();
+                }}>Submit</button>
             </form>
+            <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message="Form submitted successfully!"
+      />
+
         </div>
     );
 }
+
 
 export default EmployeeDetails;

@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Content } from 'next/font/google';
 
 export default function StickyHeadTable() {
   const [page, setPage] = useState(0);
@@ -92,7 +93,7 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer sx={{ maxHeight: 1000 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>

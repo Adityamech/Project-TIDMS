@@ -21,6 +21,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "material-react-table": "^2.12.1",
+    "material-ui-snackbar-provider": "^2.0.0",
     "mysql2": "^3.9.3",
     "next": "14.1.4",
     "query": "^0.2.0",
