@@ -39,5 +39,21 @@ router.delete('/employee-details/:empId', async (req, res) => {
 });
 
 
+router.put('/employee-details/:empId', async (req, res) => {
+    const { empId } = req.params;
+    try {
+        const updatedEmployee = await Employee.findOneAndUpdate({ empId: empId }, req.body, { new: true });
+        if (updatedEmployee) {
+            console.log('Employee updated:', updatedEmployee);
+            res.status(200).json({ message: `Employee with ID ${empId} updated successfully.`, employee: updatedEmployee });
+        } else {
+            res.status(404).json({ error: `Employee with ID ${empId} not found.` });
+        }
+    } catch (error) {
+        console.error('Error updating employee:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 
 module.exports = router;

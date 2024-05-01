@@ -1,10 +1,8 @@
-'use client'
+"use client"
 import React, { useState } from "react";
-import { Button, Grid, Paper, TextField, Typography, IconButton, InputAdornment } from "@mui/material";
+import { Button, Grid, Paper, TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Image from "next/image";
 import axios from 'axios';
-import { url } from "inspector";
 
 const Login = () => {
     const [mobile, setMobile] = useState("");
@@ -25,46 +23,53 @@ const Login = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('http://localhost:4000/login-details', {
+            const response = await axios.post('http://localhost:4000/login', {
                 mobile: mobile,
                 password: password
             });
-            // Handle response as needed
+            // Handle response
             console.log("Login response:", response.data);
+            
+            // Assuming successful login
+            if (response.data.redirectUrl) {
+                // Redirect to the dashboard page
+                window.location.href = response.data.redirectUrl;
+            } else {
+                // Handle other cases, if necessary
+            }
         } catch (error) {
             // Handle error
             console.error('Error logging in:', error);
         }
     };
-
+    
     const isSubmitDisabled = !mobile || !password;
 
     return (
-      <Grid
-      container
-      justifyContent="flex-end"
-      alignItems="center"
-      
-      sx={{ 
-          height: "97.5vh",
-          width : "100%",
-          backgroundColor: "#CFDEB1",
-          backgroundImage: "/Group.svg", // Assuming loginimg.jpg is the name of your image
-          backgroundSize: "100%100%",
-          backgroundPosition: "center",
-      }}
-  >
+        <Grid
+            container
+            justifyContent="flex-end"
+            alignItems="center"
+            sx={{
+                height: "97.5vh",
+                width: "100%",
+                backgroundColor: "#CFDEB1",
+                backgroundImage: "url('/Group.svg')", // Assuming '/Group.svg' is the name of your image
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+            }}
+        >
             <Grid item>
-            <Paper elevation={3} style={{ padding: 20, maxWidth: 340, marginRight: 50, backgroundColor: "CFDEB1" }}>
+                <Paper elevation={3} style={{ padding: 20, maxWidth: 340, marginRight: 50, backgroundColor: "#CFDEB1" }}>
                     <Grid>
-                        <Image
+                        {/* Assuming '/Group.svg' is the name of your image */}
+                        <img
                             src="/Group.svg"
                             width={175}
                             height={50}
-                            alt="first image"
+                            alt="logo"
                             style={{ marginLeft: "60px", marginBottom: "5px", marginTop: "10px" }}
                         />
-                        
                     </Grid>
 
                     <TextField
@@ -96,13 +101,15 @@ const Login = () => {
                         margin="normal"
                         InputProps={{
                             endAdornment: (
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleTogglePasswordVisibility}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleTogglePasswordVisibility}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
                             ),
                         }}
                     />
@@ -112,7 +119,9 @@ const Login = () => {
                         sx={{ width: "40%", backgroundColor: "green", marginTop: "30px", marginBottom: "20px", borderRadius: "20px", marginLeft: "30%" }}
                         onClick={handleSubmit}
                         disabled={isSubmitDisabled}
-                    > Login</Button>
+                    >
+                        Login
+                    </Button>
                 </Paper>
             </Grid>
         </Grid>
