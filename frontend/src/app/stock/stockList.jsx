@@ -1,73 +1,88 @@
-import { Grid, Card, CardContent, Button, Typography } from "@mui/material";
+import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-const Livestock = () => {
-  const livestockData = [
+const Stock = () => {
+  const StockData = [
     {
-      title: "Total Boar",
+      title: "GRADE 1",
       count: 10,
-      link: "/livestock/totalboar",
-      addButtonLabel: "Add Boar",
-      addButtonLink: "/livestock/addboar",
-      image: "/group.svg"
+      link: "/stock/Grades/Grade1",
+      image: "/Leaf.png"
     },
     {
-      title: "Total Sow",
-      count: 15,
-      link: "/livestock/totalsow",
-      addButtonLabel: "Add Sow",
-      addButtonLink: "/livestock/addsow",
-      image: "/group.svg"
+      title: "GRADE 2",
+      count: 10,
+      link: "/stock/Grades/Grade2",
+      image: "/Leaf.png"
     },
     {
-      title: "Total Piglets",
-      count: 20,
-      link: "/livestock/totalpiglet",
-      addButtonLabel: "Add Piglets",
-      addButtonLink: "/livestock/addpiglets",
-      image: "/group.svg"
+      title: "GRADE 3",
+      count: 10,
+      link: "/stock/Grades/Grade3",
+      image: "/Leaf.png"
     },
     {
-      title: "Total Khassi",
-      count: 5,
-      link: "/livestock/totalkhassi",
-      addButtonLabel: "Add Khassi",
-      addButtonLink: "/livestock/addkhassi",
-      image: "/group.svg"
-    }
+      title: "GRADE 4",
+      count: 10,
+      link: "/stock/Grades/Grade4",
+      image: "/Leaf.png"
+    },
+    {
+      title: "GRADE 5",
+      count: 10,
+      link: "/stock/Grades/Grade5",
+      image: "/Leaf.png"
+    },
+    {
+      title: "GRADE 6",
+      count: 10,
+      link: "/stock/Grades/Grade6",
+      image: "/Leaf.png"
+    },
+    {
+      title: "GRADE 7",
+      count: 10,
+      link: "/stock/Grades/Grade7",
+      image: "/Leaf.png"
+    },
+    {
+      title: "GRADE 8",
+      count: 10,
+      link: "/stock/Grades/Grade8",
+      image: "/Leaf.png"
+    },
   ];
 
   return (
     <Grid container spacing={3} justifyContent="center">
-      {livestockData.map((livestock, index) => (
+      {StockData.map((Stock, index) => (
         <Grid key={index} item xs={12} sm={6} md={3}>
-          <Card sx={{ height: '220px', width: '260px', position: 'relative',backgroundColor:"90EE90" }}>
-            <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
-                <div className="logos">
-                  <div className="pig-logo">
-                    <Image src={livestock.image} alt="" width={100} height={150} style={{ display: 'block', marginTop: '-50px',marginLeft:"40px",position:"relative" }} />
+          <Link href={Stock.link} passHref>
+            <Card sx={{ height: '220px', width: '300px', position: 'relative', background: 'linear-gradient(to top right, #CFDEB1, #F2F7E7)', textDecoration: 'none', cursor: 'pointer' }}>
+              <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <div>
+                    <div>
+                      <Image src={Stock.image} alt="" width={135} height={160} style={{ display: 'block', marginTop: '85px',marginLeft:"165px",position:"relative" }} />
+                    </div>
                   </div>
+                  <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'white', borderRadius: '15px', padding: '5px 10px' }}>
+                    <Typography variant="h6" sx={{ textAlign: 'center', margin: 0 }}>
+                      {Stock.title}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" component="p" sx={{marginTop:"-250px", position:"relative", color:'#588158'}}> Total:
+                     {Stock.count}
+                  </Typography>
                 </div>
-                <Typography variant="h6" component="h2">
-                  <Link href={livestock.link}>
-                    {livestock.title}
-                  </Link>
-                </Typography>
-                <Typography variant="body2" component="p" sx={{marginTop:"-250px", position:"absolute"}}>
-                  {livestock.count}
-                </Typography>
-              </div>
-              <Link href={livestock.addButtonLink}>
-                <Button  variant="contained" size="small" sx={{}}>{livestock.addButtonLabel}</Button>
-              </Link>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
         </Grid>
       ))}
     </Grid>
   );
 };
 
-export default Livestock;
+export default Stock;

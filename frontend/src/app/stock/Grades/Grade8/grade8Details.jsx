@@ -26,7 +26,7 @@ const FormPage = () => {
 
   return (
     <div style={{ width: '50%', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
-      <h2 style={{ textAlign: 'center' }}>Grade 1</h2>
+      <h2 style={{ textAlign: 'center' }}>Grade 8</h2>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
