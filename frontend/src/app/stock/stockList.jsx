@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
 const Stock = () => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
   const StockData = [
     {
       title: "GRADE 1",
@@ -46,12 +49,16 @@ const Stock = () => {
     },
   ];
 
+  const handleClick = (index) => {
+    setSelectedOption(index);
+  };
+
   return (
     <Grid container spacing={3} justifyContent="center">
       {StockData.map((stockItem, index) => (
         <Grid key={index} item xs={12} sm={6} md={4}>
           <Link href={stockItem.link} passHref>
-            <Card sx={{ height: '100%', width: '100%', position: 'relative', background: 'linear-gradient(to top right, #CFDEB1, #F2F7E7)', textDecoration: 'none', cursor: 'pointer' }}>
+            <Card sx={{ height: '100%', width: '100%', position: 'relative', background: selectedOption === index ? '#b7eb34' : 'linear-gradient(to top right, #CFDEB1, #F2F7E7)', textDecoration: 'none', cursor: 'pointer' }} onClick={() => handleClick(index)}>
               <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <Box sx={{ position: 'relative', width: '100%', height: '150px' }}>
                   <Image src={stockItem.image} alt="" layout="fill" objectFit="contain" style={{marginTop:'-30px'}} />
