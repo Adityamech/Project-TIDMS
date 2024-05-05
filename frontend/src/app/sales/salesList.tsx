@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,132 +7,229 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import axios from "axios";
 import EditIcon from '@mui/icons-material/Edit';
-import { format, formatDistance, formatRelative, subDays } from 'date-fns'
-
+import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function StickyHeadTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
-  const [loading, setloading] = useState(true);
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedRow, setEditedRow] = useState(null);
+  const categoryOptions = ['Pending', 'Delivered'];
+  const category2Options = ['Pending', 'Paid'];
 
   useEffect(() => {
-    getData();
-  },[]);
-
-  const getData = () => {
-    axios.get('/api/sales')
-      .then(response => {
-        console.log('Data', response);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/orders-details');
         setData(response.data);
-        setloading(false);
-    })
-    .catch(err => {
-      console.log('Error', err);
-    })
-  }
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Error fetching data. Please try again later.');
+        setLoading(false);
+      }
+    };
 
+    fetchData();
+  }, []);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const editRecord = (row: React.ChangeEvent<HTMLInputElement>) => {
-      console.log('Row', row);
+  const editRecord = row => {
+    setIsEditing(true);
+    setEditedRow(row);
   };
 
-//const date = (row: React.ChangeEvent<HTMLInputElement>) => {
-// console.log('Row', row);};
+  const saveEditedRecord = async () => {
+    try {
+      // Send a PUT request to update the edited row
+      await axios.put(`http://localhost:4000/orders-details/${editedRow.ordersId}`, editedRow);
+      setIsEditing(false);
+      setEditedRow(null);
+      console.log('Record edited successfully.');
+  
+      // Update the data state with the edited row
+      setData(prevData => prevData.map(item => (item.ordersId === editedRow.ordersId ? editedRow : item)));
+    } catch (error) {
+      console.error('Error editing record:', error);
+      // Handle error if edit request fails
+    }
+  };
+  
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setEditedRow(null);
+  };
+
+  const deleteRecord = async row => {
+    try {
+      const { ordersId } = row;
+      await axios.delete(`http://localhost:4000/orders-details/${ordersId}`);
+      setData(prevData => prevData.filter(item => item.ordersId !== ordersId));
+      console.log('Record deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting record:', error);
+    }
+  };
+
+  const handleEditInputChange = (e, columnName) => {
+    setEditedRow({ ...editedRow, [columnName]: e.target.value });
+  };
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: 1000 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-            
-                <TableCell
-                  align="center"
-                  style={{ minWidth: 70 }}
-                >
-                  Date
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ minWidth: 70 }}
-                >
-                  Product
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ minWidth: 70 }}
-                >
-                  Price(kg/gm)
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ minWidth: 70 }}
-                >
-                  Quantity
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ minWidth: 70 }}
-                >
-                  Total Price
-                </TableCell>
-                <TableCell
-                  align="center"
-                  style={{ minWidth: 70 }}
-                >
-                  Status
-                </TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Date of order</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Customer Name</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Phone Number</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Product Name</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Quantity</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Advance</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Balance</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Payment Status</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Delivery status</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row}>
-                        
-                        <TableCell key={index} align="right">
-                          (row.date)
-                        </TableCell>
-                        <TableCell key={index} align="right">
-                          (row.product)
-                        </TableCell>
-                        <TableCell key={index} align="right">
-                          (row.price(kg/gm))
-                        </TableCell>
-                        <TableCell key={index} align="right">
-                          (row.quantity)
-                        </TableCell>
-                        <TableCell key={index} align="right">
-                          (row.total_price)
-                        </TableCell>
-                        <TableCell key={index} align="right">
-                          (row.status)
-                        </TableCell>
-                        <TableCell key={index} align="right">
-                          <div className='flex justify-center'>
-                            <div className='cursor-pointer #00FF00' onClick={()=>editRecord(row)}>
-                              <EditIcon />
-                            </div>
-                           
-                          </div>
-                        </TableCell>
-                  </TableRow>
-                );
-              })}
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={10} align="center">
+                  {error ? error : <CircularProgress />}
+                </TableCell>
+              </TableRow>
+            ) : (
+              data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .reverse()
+                .map((row, index) => {
+                  const pendingFields = [row.paymentStatus, row.deliveryStatus].filter(status => status === 'Pending');
+                  const rowBackgroundColor = pendingFields.length === 1 ? '#FFFFCC' : (pendingFields.length > 1 ? '#FFCCCC' : '#CCFFCC');
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={index}
+                      style={{ backgroundColor: rowBackgroundColor }}
+                    >
+                      <TableCell align="center" style={{ minWidth: 70 }}>
+                        {row.date}
+                      </TableCell>
+                      <TableCell align="center" style={{ minWidth: 70 }}>{row.customerName}</TableCell>
+                      <TableCell align="center" style={{ minWidth: 70 }}>
+                        {isEditing && editedRow.ordersId === row.ordersId ? (
+                          <input
+                            type="text"
+                            value={editedRow.customerNumber}
+                            onChange={e => handleEditInputChange(e, 'customerNumber')}
+                          />
+                        ) : (
+                          row.customerNumber
+                        )}
+                      </TableCell>
+                      <TableCell align="center" style={{ minWidth: 70 }}>{row.productName}</TableCell>
+                      <TableCell align="center" style={{ minWidth: 70 }}>
+                        {isEditing && editedRow.ordersId === row.ordersId ? (
+                          <input
+                            type="text"
+                            value={editedRow.quantity}
+                            onChange={e => handleEditInputChange(e, 'quantity')}
+                          />
+                        ) : (
+                          row.quantity
+                        )}
+                      </TableCell>
+                      <TableCell align="center" style={{ minWidth: 70 }}>
+                        {isEditing && editedRow.ordersId === row.ordersId ? (
+                          <input
+                            type="number"
+                            value={editedRow.advance}
+                            onChange={e => handleEditInputChange(e, 'advance')}
+                          />
+                        ) : (
+                          row.advance
+                        )}
+                      </TableCell>
+                      <TableCell align="center" style={{ minWidth: 70 }}>
+                        {isEditing && editedRow.ordersId === row.ordersId ? (
+                          <input
+                            type="number"
+                            value={editedRow.balance}
+                            onChange={e => handleEditInputChange(e, 'balance')}
+                          />
+                        ) : (
+                          row.balance
+                        )}
+                      </TableCell>
+                      <TableCell align="center" style={{ minWidth: 70 }}>
+                        {isEditing && editedRow.ordersId === row.ordersId ? (
+                          <select
+                            value={editedRow.paymentStatus}
+                            onChange={e => handleEditInputChange(e, 'paymentStatus')}
+                          >
+                            {category2Options.map(option => (
+                              <option key={option} value={option}>{option}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          row.paymentStatus
+                        )}
+                      </TableCell>
+                      <TableCell align="center" style={{ minWidth: 70 }}>
+                        {isEditing && editedRow.ordersId === row.ordersId ? (
+                          <select
+                            value={editedRow.deliveryStatus}
+                            onChange={e => handleEditInputChange(e, 'deliveryStatus')}
+                          >
+                            {categoryOptions.map(option => (
+                              <option key={option} value={option}>{option}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          row.deliveryStatus
+                        )}
+                      </TableCell>
+                      
+                      <TableCell align="center" style={{ minWidth: 70 }}>
+                        <div className='flex justify-center'>
+                          {isEditing && editedRow.ordersId === row.ordersId ? (
+                            <>
+                              <button onClick={saveEditedRecord}>Save</button>
+                              <button onClick={cancelEdit}>Cancel</button>
+                            </>
+                          ) : (
+                            <>
+                              <div className='cursor-pointer #00FF00' onClick={() => editRecord(row)}>
+                                <EditIcon />
+                              </div>
+                              <div className='cursor-pointer #FF0000' onClick={() => deleteRecord(row)}>
+                                <DeleteIcon />
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+            )}
           </TableBody>
         </Table>
       </TableContainer>

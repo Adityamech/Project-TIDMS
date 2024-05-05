@@ -29,9 +29,7 @@ export default function Employee() {
         </div>
       ) : (
         <div> 
-          <h2 style={{ marginTop:'0px', marginBottom: '20px' }}>
-            Employee
-          </h2>
+          
 
           <div style={{ marginTop:"10px", marginBottom: '8px' }}>
           <Button

@@ -5,8 +5,10 @@ const employeeDetails = require("./Employee/employeeDetails")
 const stockForm = require("./Stock/stockForm")
 const stockDetails = require("./Stock/stockDetails")
 const employeeEdit = require ("./Employee/employeeEdit")
+const ordersForm = require ("./Orders/ordersForm")
+const ordersDetails = require ("./Orders/ordersDetails")
 
 
-router.use(employeeForm, employeeDetails, stockDetails, stockForm,employeeEdit)
+router.use(employeeForm, employeeDetails, stockDetails, stockForm,employeeEdit,ordersForm,ordersDetails)
 
 module.exports = router;
