@@ -112,14 +112,14 @@ const OrdersDetails: React.FC = () => {
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="productName" style={{ fontSize: '18px' }}>Product Name:</label><br />
                     <select id="productName" value={formData.productName} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }}>
-                        <option value="Grade1">Grade 1</option>
-                        <option value="Grade2">Grade 2</option>
-                        <option value="Grade3">Grade 3</option>
-                        <option value="Grade1">Grade 4</option>
-                        <option value="Grade2">Grade 5</option>
-                        <option value="Grade3">Grade 6</option>
-                        <option value="Grade1">Grade 7</option>
-                        <option value="GreenTea">Green Tea</option>
+                        <option value="Grade 1">Grade 1</option>
+                        <option value="Grade 2">Grade 2</option>
+                        <option value="Grade 3">Grade 3</option>
+                        <option value="Grade 4">Grade 4</option>
+                        <option value="Grade 5">Grade 5</option>
+                        <option value="Grade 6">Grade 6</option>
+                        <option value="Grade 7">Grade 7</option>
+                        <option value="Green Tea">Green Tea</option>
                     </select>
                 </div>
                 <div style={{ marginBottom: '20px' }}>
@@ -138,7 +138,7 @@ const OrdersDetails: React.FC = () => {
                 <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }} 
                   onClick={() => {
                     handleButtonClick();
-                    window.location.reload();
+                    router.push('/sales');
                 }}>Submit</button>
             </form>
             <Snackbar

@@ -26,7 +26,7 @@ export default function StickyHeadTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/grade2-details');
+        const response = await axios.get('http://localhost:4000/grade5-details');
         setData(response.data);
         setLoading(false);
       } catch (error) {

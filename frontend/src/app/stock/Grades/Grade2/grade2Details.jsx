@@ -35,7 +35,7 @@ const FormPage = () => {
       />
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="date" style={{ fontSize: '18px' }}>Present Date:</label><br />
+          <label htmlFor="date" style={{ fontSize: '18px' }}>Date:</label><br />
           <input
             type="date"
             id="date"

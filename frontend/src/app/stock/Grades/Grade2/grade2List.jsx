@@ -56,13 +56,13 @@ export default function StickyHeadTable() {
   const saveEditedRecord = async () => {
     try {
       // Send a PUT request to update the edited row
-      await axios.put(`http://localhost:4000/grade1-details/${editedRow.grade1}`, editedRow);
+      await axios.put(`http://localhost:4000/grade2-details/${editedRow.grade2}`, editedRow);
       setIsEditing(false);
       setEditedRow(null);
       console.log('Record edited successfully.');
   
       // Update the data state with the edited row
-      setData(prevData => prevData.map(item => (item.grade1 === editedRow.grade1 ? editedRow : item)));
+      setData(prevData => prevData.map(item => (item.grade2 === editedRow.grade2 ? editedRow : item)));
     } catch (error) {
       console.error('Error editing record:', error);
       // Handle error if edit request fails
@@ -76,9 +76,9 @@ export default function StickyHeadTable() {
 
   const deleteRecord = async row => {
     try {
-      const { grade1 } = row;
-      await axios.delete(`http://localhost:4000/grade1-details/${grade1}`);
-      setData(prevData => prevData.filter(item => item.grade1 !== grade1));
+      const { grade2 } = row;
+      await axios.delete(`http://localhost:4000/grade2-details/${grade2}`);
+      setData(prevData => prevData.filter(item => item.grade2 !== grade2));
       console.log('Record deleted successfully.');
     } catch (error) {
       console.error('Error deleting record:', error);
@@ -114,7 +114,7 @@ export default function StickyHeadTable() {
                 .map((row, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     <TableCell align="center" style={{ minWidth: 70 }}>
-                      {isEditing && editedRow.grade1 === row.grade1 ? (
+                      {isEditing && editedRow.grade2 === row.grade2 ? (
                         <input
                           type="date"
                           value={editedRow.date}
@@ -125,7 +125,7 @@ export default function StickyHeadTable() {
                       )}
                     </TableCell>
                     <TableCell align="center" style={{ minWidth: 70 }}>
-                      {isEditing && editedRow.grade1 === row.grade1 ? (
+                      {isEditing && editedRow.grade2 === row.grade2 ? (
                         <input
                           type="text"
                           value={editedRow.quantity}
@@ -137,7 +137,7 @@ export default function StickyHeadTable() {
                     </TableCell>
                     <TableCell align="center" style={{ minWidth: 70 }}>
                       <div className='flex justify-center'>
-                        {isEditing && editedRow.grade1 === row.grade1 ? (
+                        {isEditing && editedRow.grade2 === row.grade2 ? (
                           <>
                             <button onClick={saveEditedRecord}>Save</button>
                             <button onClick={cancelEdit}>Cancel</button>
