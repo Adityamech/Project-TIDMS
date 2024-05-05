@@ -5,7 +5,7 @@ import { Snackbar } from '@mui/material';
 
 const EmployeeDetails: React.FC = () => {
     const [formData, setFormData] = useState({
-        empDate: '',
+        empdate: '',
         empId: '',
         fullName: '',
         phoneNumber: '',
@@ -65,7 +65,7 @@ const EmployeeDetails: React.FC = () => {
 
     const resetForm = () => {
         setFormData({
-            empDate: '',
+            empdate: '',
             empId: '',
             fullName: '',
             phoneNumber: '',
@@ -80,8 +80,8 @@ const EmployeeDetails: React.FC = () => {
             {successMessage && <p style={{ textAlign: 'center', color: 'green' }}>{successMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="empDate" style={{ fontSize: '18px' }}>Date:</label><br />
-                    <input type="date" id="empDate" value={formData.empDate} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
+                    <label htmlFor="empdate" style={{ fontSize: '18px' }}>Date:</label><br />
+                    <input type="date" id="empdate" value={formData.empdate} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="empId" style={{ fontSize: '18px' }}>Employee ID:</label><br />

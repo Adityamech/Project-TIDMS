@@ -18,15 +18,16 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import MenuIcon from '@mui/icons-material/Menu';
 
 const drawerWidth = 240;
 
 interface Props {
   window?: () => Window;
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function Layout(props: Props) {
@@ -58,17 +59,16 @@ export default function Layout(props: Props) {
         <Image src={"/Group.svg"} height={40} width={125} alt='Logo' style={{ marginLeft: "25px", marginTop: "5px" }}/>
       </Toolbar>
       <Divider />
-
-      <List >
+      <List>
         {['Dashboard', 'Employee', 'Stock', 'Orders', 'Sales'].map((text, index) => (
-          <ListItem key={text} disablePadding onClick={() => { 
-              router.push("/" + text.toLowerCase());
-            }}>
-            <ListItemButton style={{ backgroundColor: pathname.startsWith("/" + text.toLowerCase())
-              ? "#538151" : "", color: pathname.startsWith("/" + text.toLowerCase())
-              ? "#ffffff" : "#708090"}}>
-              <ListItemIcon  style={{ color: pathname.startsWith("/" + text.toLowerCase())
-              ? "#ffffff" : "#708090"}}>
+          <ListItem key={text} disablePadding onClick={() => router.push("/" + text.toLowerCase())}>
+            <ListItemButton
+              style={{
+                backgroundColor: pathname.startsWith("/" + text.toLowerCase()) ? "#538151" : "",
+                color: pathname.startsWith("/" + text.toLowerCase()) ? "#ffffff" : "#708090"
+              }}
+            >
+              <ListItemIcon style={{ color: pathname.startsWith("/" + text.toLowerCase()) ? "#ffffff" : "#708090" }}>
                 {index === 0 && <HomeOutlinedIcon />}
                 {index === 1 && <PersonOutlineOutlinedIcon />}
                 {index === 2 && <SpaOutlinedIcon />}
@@ -91,16 +91,12 @@ export default function Layout(props: Props) {
       <AppBar
         position="fixed"
         sx={{
-          background: 'linear-gradient(to right, #588158, #CFDEB1)', 
-          width: {
-            sm: `calc(100% - ${drawerWidth}px)`,
-          },
-          marginLeft: {
-            sm: `${drawerWidth}px`, 
-          },
+          background: 'linear-gradient(to right, #588158, #CFDEB1)',
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          marginLeft: { sm: `${drawerWidth}px` }
         }}
       >
-       <Toolbar>
+        <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -111,28 +107,46 @@ export default function Layout(props: Props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            {pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(2)} {/* Render the dynamic header title based on the selected page */}
+            {pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(2)}
           </Typography>
+          <IconButton
+            color="inherit"
+            aria-label="logout"
+            edge="end"
+            onClick={() => {
+              // Add your logout logic here
+            }}
+            sx={{
+              ml: 'auto',
+              display: { sm: 'flex' },
+              fontSize: 'large',
+              color: '#fff',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)'
+              },
+              '& .MuiIconButton-label': {
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              },
+            }}
+          >
+            Logout
+            <LogoutOutlinedIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{
-            width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
-          container={container}          
+          container={container}
           variant="temporary"
           open={mobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
+          ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
           }}
         >
           {drawer}
@@ -141,19 +155,16 @@ export default function Layout(props: Props) {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth},
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
           }}
           open
         >
           {drawer}
         </Drawer>
       </Box>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-      >
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
         <Toolbar />
-          <main>{props.children}</main>
+        <main>{children}</main>
       </Box>
     </Box>
   );

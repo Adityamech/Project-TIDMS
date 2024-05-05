@@ -116,6 +116,7 @@ export default function StickyHeadTable() {
             ) : (
               data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .reverse()
                 .map((row, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     <TableCell align="center" style={{ minWidth: 70 }}>
