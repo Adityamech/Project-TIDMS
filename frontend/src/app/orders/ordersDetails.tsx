@@ -96,22 +96,22 @@ const OrdersDetails: React.FC = () => {
     }
 
     return (
-        <div style={{ width: '50%', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
+        <div style={{ width: '50%', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '0px', backgroundColor: '#f9f9f9' }}>
             <h2 style={{ textAlign: 'center' }}>Order Details</h2>
             {successMessage && <p style={{ textAlign: 'center', color: 'green' }}>{successMessage}</p>}
             <form onSubmit={handleSubmit}>
                 
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="customerName" style={{ fontSize: '18px' }}>Customer Name:</label><br />
-                    <input type="text" placeholder="Enter the Customer name" id="customerName" value={formData.customerName} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
+                    <input type="text" placeholder="Enter the Customer name" id="customerName" value={formData.customerName} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="customerNumber" style={{ fontSize: '18px' }}>Customer Phone Number:</label><br />
-                    <input type="text" placeholder="Enter the Customer Phone Number" id="customerNumber" value={formData.customerNumber} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
+                    <input type="text" placeholder="Enter the Customer Phone Number" id="customerNumber" value={formData.customerNumber} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="productName" style={{ fontSize: '18px' }}>Product Name:</label><br />
-                    <select id="productName" value={formData.productName} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }}>
+                    <select id="productName" value={formData.productName} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }}>
                         <option value="Grade 1">Grade 1</option>
                         <option value="Grade 2">Grade 2</option>
                         <option value="Grade 3">Grade 3</option>
@@ -124,15 +124,15 @@ const OrdersDetails: React.FC = () => {
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="quantity" style={{ fontSize: '18px' }}>Quantity:</label><br />
-                    <input type="text" placeholder="Enter the Quantity" id="quantity" value={formData.quantity} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
+                    <input type="text" placeholder="Enter the Quantity" id="quantity" value={formData.quantity} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="advance" style={{ fontSize: '18px' }}>Advance:</label><br />
-                    <input type="number" placeholder="Enter the advance paid" id="advance" value={formData.advance} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
+                    <input type="number" placeholder="Enter the advance paid" id="advance" value={formData.advance} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label htmlFor="balance" style={{ fontSize: '18px' }}>Balance:</label><br />
-                    <input type="number" placeholder="Enter the balance" id="balance" value={formData.balance} onChange={handleChange} style={{ fontSize: '16px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
+                    <input type="number" placeholder="Enter the balance" id="balance" value={formData.balance} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
                 </div>
                 
                 <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }} 

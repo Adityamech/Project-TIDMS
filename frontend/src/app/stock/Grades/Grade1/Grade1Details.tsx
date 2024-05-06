@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 
+
 const FormPage = () => {
   // State variables to store form data
   const [date, setDate] = useState('');

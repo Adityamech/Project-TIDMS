@@ -1,13 +1,13 @@
 "use client"
 import React, { useState } from "react";
-import { Button, Grid, Paper, TextField, IconButton, InputAdornment } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Button, Grid, TextField, Box } from "@mui/material";
 import axios from 'axios';
+import Image from "next/image";
 
 const Login = () => {
     const [mobile, setMobile] = useState("");
     const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+    const [loginError, setLoginError] = useState("");
 
     const handleMobileChange = (e) => {
         setMobile(e.target.value);
@@ -17,114 +17,131 @@ const Login = () => {
         setPassword(e.target.value);
     };
 
-    const handleTogglePasswordVisibility = () => {
-        setShowPassword((prevShowPassword) => !prevShowPassword);
-    };
-
     const handleSubmit = async () => {
         try {
             const response = await axios.post('http://localhost:4000/login', {
                 mobile: mobile,
                 password: password
             });
-            // Handle response
             console.log("Login response:", response.data);
-            
-            // Assuming successful login
             if (response.data.redirectUrl) {
-                // Redirect to the dashboard page
                 window.location.href = response.data.redirectUrl;
-            } else {
-                // Handle other cases, if necessary
+            } 
+            else {
+            
             }
         } catch (error) {
-            // Handle error
             console.error('Error logging in:', error);
+            setLoginError("Invalid mobile number or password. Please try again.");
         }
     };
+
+    // const BasicTextFields = () => {}
     
     const isSubmitDisabled = !mobile || !password;
 
     return (
-        <Grid
-            container
-            justifyContent="flex-end"
-            alignItems="center"
-            sx={{
-                height: "97.5vh",
-                width: "100%",
-                backgroundColor: "#CFDEB1",
-                backgroundImage: "url('/Group.svg')", // Assuming '/Group.svg' is the name of your image
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-            }}
-        >
-            <Grid item>
-                <Paper elevation={3} style={{ padding: 20, maxWidth: 340, marginRight: 50, backgroundColor: "#CFDEB1" }}>
-                    <Grid>
-                        {/* Assuming '/Group.svg' is the name of your image */}
-                        <img
-                            src="/Group.svg"
-                            width={175}
-                            height={50}
-                            alt="logo"
-                            style={{ marginLeft: "60px", marginBottom: "5px", marginTop: "10px" }}
+        <Box sx={{ backgroundColor: "#ffffff", minHeight: "100vh" }}>
+            <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ minHeight: "100vh" }}>
+                <Grid item xs={12} sm={6}>
+                    <Box sx={{ padding: 2, backgroundColor: "#ffffff", maxWidth: 400, margin: "auto"}}>
+                        <Grid container justifyContent="center" alignItems="center">
+                            <Grid item>
+                                <Image
+                                    src="/Group.svg"
+                                    width={250}
+                                    height={50}
+                                    alt="logo"
+                                    style={{ marginBottom: 10, marginTop:5}}
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Box
+                            component="form"
+                            sx={{
+                                '& > :not(style)': { m: 1, width: '40ch' },
+                            }}
+                            noValidate
+                            autoComplete="off"
+                            >
+                            <TextField 
+                            id="outlined-basic" 
+                            label="Mobile Number" 
+                            variant="outlined" 
+                            value={mobile}
+                            onChange={handleMobileChange}
+                            required/>
+                            <TextField 
+                            id="outlined-basic" 
+                            label="Password" 
+                            variant="outlined" 
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required />
+                        </Box>
+                        {/* <TextField
+                            label="Mobile"
+                            focused
+                            placeholder="Enter your mobile number"
+                            name="mobile"
+                            value={mobile}
+                            onChange={handleMobileChange}
+                            required
+                            size="small"
+                            type="text"
+                            fullWidth
+                            margin="normal"
                         />
-                    </Grid>
-
-                    <TextField
-                        sx={{ height: "35px", marginTop: "15px" }}
-                        label="Mobile"
-                        focused
-                        placeholder="Enter your mobile number"
-                        name="mobile"
-                        value={mobile}
-                        onChange={handleMobileChange}
-                        required
-                        size="small"
-                        type="text"
-                        fullWidth
-                        margin="normal"
-                    />
-                    <TextField
-                        sx={{ height: "35px", marginTop: "15px" }}
-                        label="Password"
-                        focused
-                        placeholder="Enter your password here"
-                        name="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        required
-                        size="small"
-                        type={showPassword ? "text" : "password"} // Toggle password visibility
-                        fullWidth
-                        margin="normal"
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleTogglePasswordVisibility}
-                                        edge="end"
-                                    >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-
-                    <Button
-                        variant="contained"
-                        sx={{ width: "40%", backgroundColor: "green", marginTop: "30px", marginBottom: "20px", borderRadius: "20px", marginLeft: "30%" }}
-                        onClick={handleSubmit}
-                        disabled={isSubmitDisabled}
-                    >
-                        Login
-                    </Button>
-                </Paper>
+                        <TextField
+                            label="Password"
+                            focused
+                            placeholder="Enter your password here"
+                            name="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required
+                            size="small"
+                            type="password" 
+                            fullWidth
+                            margin="normal"
+                        /> */}
+                        {loginError && <p style={{ color: "red", textAlign: "center" }}>{loginError}</p>}
+                        <Button
+                            variant="contained"
+                            sx={{
+                                width: "50%",
+                                bgcolor: "green",
+                                mt: 3,
+                                mb: 2,
+                                borderRadius: 5,
+                                fontSize: "0.8rem",
+                                textAlign: "center",
+                                mx: "auto",
+                                display: "block",
+                                '@media (max-width: 600px)': {
+                                width: "50%" 
+                                }
+                            }}
+                            onClick={handleSubmit}
+                            disabled={isSubmitDisabled}
+                        >
+                            Login
+                        </Button>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <Box sx={{ position: "relative", paddingTop: "100%" }}>
+                        <Image
+                            src="/Tea1.jpg"
+                            layout="fill"
+                            objectFit="cover"
+                            alt="main image"
+                        />
+                    </Box>
+                </Grid>
             </Grid>
-        </Grid>
+        </Box>
     );
 };
 
