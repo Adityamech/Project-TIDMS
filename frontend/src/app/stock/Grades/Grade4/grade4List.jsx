@@ -7,11 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Content } from 'next/font/google';
 
 export default function StickyHeadTable() {
   const [page, setPage] = useState(0);
@@ -21,12 +20,11 @@ export default function StickyHeadTable() {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedRow, setEditedRow] = useState(null);
-  const categoryOptions = ['manager', 'developer', 'tester'];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/grade2-details');
+        const response = await axios.get('http://localhost:4000/grade4-details');
         setData(response.data);
         setLoading(false);
       } catch (error) {
@@ -56,13 +54,13 @@ export default function StickyHeadTable() {
   const saveEditedRecord = async () => {
     try {
       // Send a PUT request to update the edited row
-      await axios.put(`http://localhost:4000/grade4-details/${editedRow.grade4}`, editedRow);
+      await axios.put(`http://localhost:4000/grade4-details/${editedRow.stockId}`, editedRow);
       setIsEditing(false);
       setEditedRow(null);
       console.log('Record edited successfully.');
   
       // Update the data state with the edited row
-      setData(prevData => prevData.map(item => (item.grade4 === editedRow.grade4 ? editedRow : item)));
+      setData(prevData => prevData.map(item => (item.stockId === editedRow.stockId ? editedRow : item)));
     } catch (error) {
       console.error('Error editing record:', error);
       // Handle error if edit request fails
@@ -76,9 +74,9 @@ export default function StickyHeadTable() {
 
   const deleteRecord = async row => {
     try {
-      const { grade4 } = row;
-      await axios.delete(`http://localhost:4000/grade4-details/${grade4}`);
-      setData(prevData => prevData.filter(item => item.grade4 !== grade4));
+      const { stockId } = row;
+      await axios.delete(`http://localhost:4000/grade4-details/${stockId}`);
+      setData(prevData => prevData.filter(item => item.stockId !== stockId));
       console.log('Record deleted successfully.');
     } catch (error) {
       console.error('Error deleting record:', error);
@@ -89,47 +87,49 @@ export default function StickyHeadTable() {
     setEditedRow({ ...editedRow, [columnName]: e.target.value });
   };
 
-  
-
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 1000 }}>
+      <TableContainer sx={{ maxHeight: 1000 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-            <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Date</TableCell>
+              {/* <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Stock ID</TableCell> */}
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Stock Date</TableCell>
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Quantity</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={7} align="center">
+                <TableCell colSpan={4} align="center">
                   {error ? error : <CircularProgress />}
                 </TableCell>
               </TableRow>
             ) : (
               data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .reverse()
                 .map((row, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                    {/* <TableCell align="center" style={{ minWidth: 70 }}>{row.stockId}</TableCell> */}
                     <TableCell align="center" style={{ minWidth: 70 }}>
-                      {isEditing && editedRow.grade4 === row.grade4 ? (
+                      {isEditing && editedRow.stockId === row.stockId ? (
                         <input
                           type="date"
-                          value={editedRow.date}
-                          onChange={e => handleEditInputChange(e, 'date')}
+                          value={editedRow.stockDate}
+                          onChange={e => handleEditInputChange(e, 'stockDate')}
                         />
                       ) : (
-                        row.date
+                        row.stockDate
                       )}
                     </TableCell>
                     <TableCell align="center" style={{ minWidth: 70 }}>
-                      {isEditing && editedRow.grade4 === row.grade4 ? (
+                      {isEditing && editedRow.stockId === row.stockId ? (
                         <input
-                          type="text"
+                          type="number"
                           value={editedRow.quantity}
-                          onChange={e => handleEditInputChange(e, 'phoneNumber')}
+                          onChange={e => handleEditInputChange(e, 'quantity')}
                         />
                       ) : (
                         row.quantity
@@ -137,7 +137,7 @@ export default function StickyHeadTable() {
                     </TableCell>
                     <TableCell align="center" style={{ minWidth: 70 }}>
                       <div className='flex justify-center'>
-                        {isEditing && editedRow.grade4 === row.grade4 ? (
+                        {isEditing && editedRow.stockId === row.stockId ? (
                           <>
                             <button onClick={saveEditedRecord}>Save</button>
                             <button onClick={cancelEdit}>Cancel</button>

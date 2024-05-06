@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Snackbar } from '@mui/material';
 
 
-const Grade1Details: React.FC = () => {
+const Grade4Details: React.FC = () => {
 
     const generateStockId = () => {
         const timestamp = Date.now().toString(); // Get current timestamp
@@ -60,7 +60,7 @@ const Grade1Details: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:4000/grade1-form', formData);
+            const response = await axios.post('http://localhost:4000/grade4-form', formData);
             if (response.status === 200) {
                 setSuccessMessage('orders details added successfully');
                 setTimeout(() => {
@@ -108,4 +108,4 @@ const Grade1Details: React.FC = () => {
   );
 }
 
-export default Grade1Details;
+export default Grade4Details;

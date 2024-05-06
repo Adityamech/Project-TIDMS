@@ -2,19 +2,19 @@
 
 import React, { useState } from 'react';
 import Layout from '../../../components/layout'
-import Grade8List from './grade8List';
+import GreenTeaList from './greenTeaList';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Grade8Details from './grade8Details';
+import GreenTeaDetails from './greenTeaDetails';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function Grade8() {
-    const [addGrade8, setAddGrade8] = useState(false);
+    const [addGreenTea, setAddGreenTea] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
   
     return (
       <Layout>
-        {addGrade8 ? (
+        {addGreenTea ? (
           <div>
             <div className='flex justify-start'>
               <ArrowBackIcon
@@ -25,7 +25,7 @@ export default function Grade8() {
                 Add Stock
               </h2>
             </div>
-            <Grade8Details />
+            <GreenTeaDetails />
           </div>
         ) : (
           <div> 
@@ -36,7 +36,7 @@ export default function Grade8() {
             <div style={{ marginTop:"10px", marginBottom: '8px' }}>
             <Button
                 variant='outlined'
-                onClick={() => setAddGrade8(true)}
+                onClick={() => setAddGreenTea(true)}
                 endIcon={<AddCircleIcon />}
                 style={{marginRight:"5px"}}
               >
@@ -55,7 +55,7 @@ export default function Grade8() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Grade8List />
+            <GreenTeaList />
           </div>
         )}
       </Layout>
