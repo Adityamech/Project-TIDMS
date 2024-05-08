@@ -1,13 +1,15 @@
 "use client"
 import React, { useState } from "react";
-import { Button, Grid, TextField, Box } from "@mui/material";
+import { Button, Grid, TextField, Box, IconButton, InputAdornment } from "@mui/material";
 import axios from 'axios';
 import Image from "next/image";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
     const [mobile, setMobile] = useState("");
     const [password, setPassword] = useState("");
     const [loginError, setLoginError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleMobileChange = (e:any) => {
         setMobile(e.target.value);
@@ -34,6 +36,10 @@ const Login = () => {
             console.error('Error logging in:', error);
             setLoginError("Invalid mobile number or password. Please try again.");
         }
+    };
+
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
 
@@ -80,34 +86,24 @@ const Login = () => {
                             variant="outlined" 
                             value={password}
                             onChange={handlePasswordChange}
-                            required />
+                            type={showPassword ? "text" : "password"}
+                                required 
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleTogglePasswordVisibility}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
+ />
                         </Box>
-                        {/* <TextField
-                            label="Mobile"
-                            focused
-                            placeholder="Enter your mobile number"
-                            name="mobile"
-                            value={mobile}
-                            onChange={handleMobileChange}
-                            required
-                            size="small"
-                            type="text"
-                            fullWidth
-                            margin="normal"
-                        />
-                        <TextField
-                            label="Password"
-                            focused
-                            placeholder="Enter your password here"
-                            name="password"
-                            value={password}
-                            onChange={handlePasswordChange}
-                            required
-                            size="small"
-                            type="password" 
-                            fullWidth
-                            margin="normal"
-                        /> */}
+                      
                         {loginError && <p style={{ color: "red", textAlign: "center" }}>{loginError}</p>}
                         <Button
                             variant="contained"

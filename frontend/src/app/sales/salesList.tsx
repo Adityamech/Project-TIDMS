@@ -5,7 +5,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -31,7 +30,7 @@ export default function StickyHeadTable() {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError('Error fetching data. Please try again later.');
+        setError("Error fetching data. Please try again later.");
         setLoading(false);
       }
     };
