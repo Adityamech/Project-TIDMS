@@ -9,9 +9,9 @@ import { Snackbar,TextField } from '@mui/material';
 const EmployeeDetails: React.FC = () => {
 
     const generateEmployeeId = () => {
-        const timestamp = Date.now().toString(); // Get current timestamp
-        const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0'); // Generate 4-digit random number
-        return timestamp + randomNum; // Concatenate timestamp and random number
+      // const timestamp = Date.now().toString(); // Get current timestamp
+      const randomNum = Math.floor(Math.random() * 100000).toString().padStart(5, '0'); // Generate 4-digit random number
+      return randomNum; // Concatenate timestamp and random number
     };
 
     const [formData, setFormData] = useState({
@@ -39,7 +39,10 @@ const EmployeeDetails: React.FC = () => {
             if (!isNaN(date.getTime())) {
                 newValue = date.toISOString().split('T')[0];
             }
-        }
+        } else if (id === 'phoneNumber' && value.length > 10) {
+          // If phone number exceeds 10 digits, prevent further changes
+          return;
+      }
         setFormData({
             ...formData,
             [id]: newValue
@@ -90,9 +93,9 @@ const EmployeeDetails: React.FC = () => {
         });
     }
 
-    const validateCustomerNumber = (customerNumber: string) => {
-        const isValid = /^\d{10}$/.test(customerNumber);
-        if (customerNumber == "" || isValid) {
+    const validatePhoneNumber = (phoneNumber: string) => {
+        const isValid = /^\d{10}$/.test(phoneNumber);
+        if (phoneNumber == "" || isValid) {
           setPhoneNumberError("");
           return false;
         } else {
@@ -151,13 +154,13 @@ const EmployeeDetails: React.FC = () => {
                   type='number'
                   placeholder="Enter Mobile No"
                   focused
-                  name="Customer Number"
+                  name="Phone Number"
                   size="small"
                   value={formData.phoneNumber}
                   required
                   onChange={(e) => {
                     const phoneNumber = e.target.value;
-                    validateCustomerNumber(phoneNumber);
+                    validatePhoneNumber(phoneNumber);
                     setFormData({ ...formData, phoneNumber: e.target.value });
                   }}
                   fullWidth

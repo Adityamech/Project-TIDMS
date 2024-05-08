@@ -20,6 +20,7 @@
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
+    "file-saver": "^2.0.5",
     "material-react-table": "^2.12.1",
     "material-ui-snackbar-provider": "^2.0.0",
     "mysql2": "^3.9.3",
@@ -29,8 +30,10 @@
     "react-countup": "^6.5.3",
     "react-dom": "^18",
     "react-hook-form": "^7.51.2",
+    "react-html-table-to-excel": "^2.0.0",
     "react-toastify": "^10.0.5",
     "styled-components": "^6.1.8",
+    "xlsx": "^0.18.5",
     "yup": "^1.4.0"
   },
   "devDependencies": {

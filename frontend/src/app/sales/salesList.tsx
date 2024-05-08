@@ -10,6 +10,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { saveAs } from 'file-saver'; // for file download
+import * as XLSX from 'xlsx'; // for Excel manipulation
+
 
 export default function StickyHeadTable() {
   const [page, setPage] = useState(0);
@@ -94,8 +97,22 @@ export default function StickyHeadTable() {
     setEditedRow({ ...editedRow, [columnName]: e.target.value });
   };
 
+  const exportToExcel = () => {
+    // Remove _id and __v fields from data
+    const cleanedData = data.map(({ _id, __v, ...rest }) => rest);
+  
+    const worksheet = XLSX.utils.json_to_sheet(cleanedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Orders');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), 'orders.xlsx');
+  };
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden',marginTop:'25px' }}>
+      <div style={{ textAlign: 'right', margin: '10px' }}>
+        <button onClick={exportToExcel}>Export to Excel</button>
+      </div>
       <TableContainer sx={{ maxHeight: "78vh" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

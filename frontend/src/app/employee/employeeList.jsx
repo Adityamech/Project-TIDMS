@@ -12,6 +12,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Content } from 'next/font/google';
+import { saveAs } from 'file-saver'; // for file download
+import * as XLSX from 'xlsx'; // for Excel manipulation
+
 
 export default function StickyHeadTable() {
   const [page, setPage] = useState(0);
@@ -22,6 +25,7 @@ export default function StickyHeadTable() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedRow, setEditedRow] = useState(null);
   const categoryOptions = ['Manager', 'Assistant Manager', 'Operator', 'Labour'];
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,10 +99,24 @@ export default function StickyHeadTable() {
     setEditedRow({ ...editedRow, [columnName]: e.target.value });
   };
 
+  const exportToExcel = () => {
+    // Remove _id and __v fields from data
+    const cleanedData = data.map(({ _id, __v, ...rest }) => rest);
+
+    const worksheet = XLSX.utils.json_to_sheet(cleanedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Employees');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), 'employees.xlsx');
+  };
+
   
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <div style={{ textAlign: 'right', margin: '10px' }}>
+        <button onClick={exportToExcel}>Export to Excel</button>
+      </div>
             <TableContainer sx={{ maxHeight: "75vh "}}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

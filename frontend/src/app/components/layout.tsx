@@ -160,7 +160,7 @@ export default function Layout(props: Props) {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth ,borderRight: '2px solid #538151'}
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth ,borderRight: '2px solid #538151',borderTop: '2px solid #538151',borderLeft: '2px solid #538151',borderBottom: '2px solid #538151'}
           }}
           open
         >
