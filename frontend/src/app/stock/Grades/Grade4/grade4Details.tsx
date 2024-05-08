@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Snackbar } from '@mui/material';
+import { Snackbar,TextField } from '@mui/material';
 
 
 const Grade4Details: React.FC = () => {
@@ -21,6 +21,8 @@ const Grade4Details: React.FC = () => {
         quantity : '',
 
     });
+
+    const isSubmitDisabled = !formData.quantity;
 
 
 
@@ -82,17 +84,34 @@ const Grade4Details: React.FC = () => {
         });
     }
 
+
     return (
       <div style={{ width: '50%', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '0px', backgroundColor: '#f9f9f9' }}>
           <h2 style={{ textAlign: 'center' }}>Order Details</h2>
           {successMessage && <p style={{ textAlign: 'center', color: 'green' }}>{successMessage}</p>}
           <form onSubmit={handleSubmit}>
-              <div style={{ marginBottom: '20px' }}>
-                  <label htmlFor="quantity" style={{ fontSize: '18px' }}>Quantity:</label><br />
-                  <input type="text" placeholder="Enter the Quantity" id="quantity" value={formData.quantity} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
-              </div>
+          <TextField
+                  sx={{ height: "45px", borderRadius: "5px" }}
+                  label="Quantity"
+                  color="success"
+                  type='number'
+                  placeholder="Quantity produced today"
+                  focused
+                  name="Customer Name"
+                  size="small"
+                  value={formData.quantity}
+                  required
+                  onChange={(e) => {
+                   
+                    setFormData({ ...formData, quantity: e.target.value });
+                  }}
+                  fullWidth
+                  margin="normal"
+
+                />
               {/* <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }} onClick={handleButtonClick}>Submit</button> */}
-              <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }} 
+              <button type="submit" style={{ width: '30%',marginLeft:'35%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: isSubmitDisabled ? '#ccc' : '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }} 
+                  disabled={isSubmitDisabled}
                   onClick={() => {
                     handleButtonClick();
                     window.location.reload();

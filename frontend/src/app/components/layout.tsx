@@ -23,6 +23,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
+
 const drawerWidth = 240;
 
 interface Props {
@@ -53,12 +54,15 @@ export default function Layout(props: Props) {
     }
   };
 
+  
+
   const drawer = (
     <div>
       <Toolbar>
-        <Image src={"/Group.svg"} height={40} width={125} alt='Logo' style={{ marginLeft: "25px", marginTop: "5px" }}/>
+        <Image src={"/Group.svg"} height={80} width={175} alt='Logo' style={{ marginLeft: "1px", marginTop: "-19px", marginBottom:'-10px' }}/>
       </Toolbar>
-      <Divider />
+      <Divider sx={{ height: '1.5px', backgroundColor: '#538151' }} />
+
       <List>
         {['Dashboard', 'Employee', 'Stock', 'Orders', 'Sales'].map((text, index) => (
           <ListItem key={text} disablePadding onClick={() => router.push("/" + text.toLowerCase())}>
@@ -114,6 +118,7 @@ export default function Layout(props: Props) {
             aria-label="logout"
             edge="end"
             onClick={() => {
+              router.push('/')
               // Add your logout logic here
             }}
             sx={{
@@ -155,7 +160,7 @@ export default function Layout(props: Props) {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth ,borderRight: '2px solid #538151'}
           }}
           open
         >

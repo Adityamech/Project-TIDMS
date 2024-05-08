@@ -9,11 +9,11 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [loginError, setLoginError] = useState("");
 
-    const handleMobileChange = (e) => {
+    const handleMobileChange = (e:any) => {
         setMobile(e.target.value);
     };
 
-    const handlePasswordChange = (e) => {
+    const handlePasswordChange = (e:any) => {
         setPassword(e.target.value);
     };
 
@@ -35,6 +35,8 @@ const Login = () => {
             setLoginError("Invalid mobile number or password. Please try again.");
         }
     };
+
+
 
     // const BasicTextFields = () => {}
     

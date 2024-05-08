@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/layout.jsx", "src/app/page.jsx", "src/app/components/sidenav.jsx", "src/app/admin/dashboard/page.jsx", "src/app/admin/dashboard/page.jsx", "src/app/api/users/route.js", "src/app/employee/employeeList.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/layout.jsx", "src/app/page.jsx", "src/app/components/sidenav.jsx", "src/app/admin/dashboard/page.jsx", "src/app/admin/dashboard/page.jsx", "src/app/api/users/route.js", "src/app/employee/employeeList.jsx", "src/app/dashboard/page.jsx"],
   "exclude": ["node_modules"]
 }

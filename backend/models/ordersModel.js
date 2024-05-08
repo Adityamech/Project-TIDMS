@@ -33,7 +33,7 @@ const ordersSchema = new mongoose.Schema({
     // required: true,
 
   },
-  balance: {
+  price: {
     type: Number,
     // required: true,
 

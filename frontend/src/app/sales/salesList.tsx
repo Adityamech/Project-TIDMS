@@ -74,6 +74,12 @@ export default function StickyHeadTable() {
     setEditedRow(null);
   };
 
+  const confirmDelete = (row) => {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+      deleteRecord(row);
+    }
+  };
+
   const deleteRecord = async row => {
     try {
       const { ordersId } = row;
@@ -90,8 +96,8 @@ export default function StickyHeadTable() {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 1000 }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden',marginTop:'25px' }}>
+      <TableContainer sx={{ maxHeight: "78vh" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -115,8 +121,8 @@ export default function StickyHeadTable() {
                 </TableCell>
               </TableRow>
             ) : (
-              data
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              [...data]
+                
                 .reverse()
                 .map((row, index) => {
                   const pendingFields = [row.paymentStatus, row.deliveryStatus].filter(status => status === 'Pending');
@@ -171,11 +177,11 @@ export default function StickyHeadTable() {
                         {isEditing && editedRow.ordersId === row.ordersId ? (
                           <input
                             type="number"
-                            value={editedRow.balance}
-                            onChange={e => handleEditInputChange(e, 'balance')}
+                            value={editedRow.price}
+                            onChange={e => handleEditInputChange(e, 'price')}
                           />
                         ) : (
-                          row.balance
+                          row.price
                         )}
                       </TableCell>
                       <TableCell align="center" style={{ minWidth: 70 }}>
@@ -219,9 +225,14 @@ export default function StickyHeadTable() {
                               <div className='cursor-pointer #00FF00' onClick={() => editRecord(row)}>
                                 <EditIcon />
                               </div>
-                              <div className='cursor-pointer #FF0000' onClick={() => deleteRecord(row)}>
-                                <DeleteIcon />
-                              </div>
+                              <div className="flex justify-center">
+                <div
+                  className="cursor-pointer #FF0000"
+                  onClick={() => confirmDelete(row)}
+                >
+                  <DeleteIcon />
+                </div>
+              </div>
                             </>
                           )}
                         </div>
@@ -233,7 +244,7 @@ export default function StickyHeadTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
+      {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={data.length}
@@ -241,7 +252,7 @@ export default function StickyHeadTable() {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      /> */}
     </Paper>
   );
 }

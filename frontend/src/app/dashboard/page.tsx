@@ -1,12 +1,54 @@
-'use client'
+'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/layout';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
 import CountUp from 'react-countup';
+import axios from 'axios';
 
 export default function Dashboard() {
+  const [totalEmployees, setTotalEmployees] = useState(0);
+  const [totalSalary, setTotalSalary] = useState(0);
+  const [totalQuantity, setTotalQuantity] = useState(0);
+
+  useEffect(() => {
+    // Fetch total number of employees from the server
+    fetchTotalEmployees();
+    fetchTotalSalary();
+    fetchTotalQuantity();
+  }, []);
+
+  const fetchTotalEmployees = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/total-employees');
+      setTotalEmployees(response.data.totalEmployees);
+    } catch (error) {
+      console.error('Error fetching total employees:', error);
+    }
+  };
+
+  const fetchTotalSalary = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/total-salary');
+      setTotalSalary(response.data.totalSalary);
+    } catch (error) {
+      console.error('Error fetching total salary:', error);
+    }
+  };
+
+
+  const fetchTotalQuantity = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/total-quantity');
+      setTotalQuantity(response.data.totalQuantity);
+    } catch (error) {
+      console.error('Error fetching total quantity:', error);
+    }
+  };
+
+  
+
   return (
     <>
       <Layout>
@@ -25,7 +67,7 @@ export default function Dashboard() {
               <div style={{ paddingLeft: '20px', paddingRight: '20px', paddingTop: '2px', paddingBottom: '15px' }}>
                 <div style={{ color: '#354E41', fontWeight: 'bold', marginLeft:'-180px' }}>No. of Employee</div>
                 <div style={{ fontSize: '25px', fontWeight: 'bold', marginTop: '5px', color: '#588158', marginLeft:'-180px' }}>
-                  <CountUp start={0} end={150} delay={1} />
+                  <CountUp start={0} end={totalEmployees}  />
                 </div>
               </div>
             </div>
@@ -38,7 +80,7 @@ export default function Dashboard() {
               <div style={{ paddingLeft: '20px', paddingRight: '20px', paddingTop: '2px', paddingBottom: '15px' }}>
                 <div style={{ color: '#354E41', fontWeight: 'bold', marginLeft:'-180px' }}>Total Salary</div>
                 <div style={{ fontSize: '25px', fontWeight: 'bold', marginTop: '5px', color: '#588158', marginLeft:'-180px' }}>
-                  <CountUp start={0} end={150000} delay={1} />
+                  <CountUp start={0} end={totalSalary} />
                 </div>
               </div>
             </div>
@@ -52,7 +94,7 @@ export default function Dashboard() {
               <div style={{ paddingLeft: '20px', paddingRight: '20px', paddingTop: '2px', paddingBottom: '15px' }}>
                 <div style={{ color: '#354E41', fontWeight: 'bold', marginLeft:'-480px' }}>Total Sales</div>
                 <div style={{ fontSize: '25px', fontWeight: 'bold', marginTop: '5px', color: '#588158',marginLeft:'-480px' }}>
-                  <CountUp start={0} end={200000} delay={1} />
+                  <CountUp start={0} end={totalQuantity} /> kg
                 </div>
               </div>
             </div>

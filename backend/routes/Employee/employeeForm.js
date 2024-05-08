@@ -31,4 +31,43 @@ router.post("/employee-form", async(req, res)=> {
 
 })
 
+router.get("/total-employees", async (req, res) => {
+    try {
+        // Count the total number of employees
+        const totalEmployees = await Employee.countDocuments();
+
+        // Send the total count as response
+        res.status(200).json({ totalEmployees });
+    } catch (error) {
+        // Send an error response if something goes wrong
+        console.error('Error fetching total employees:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+router.get("/total-salary", async (req, res) => {
+    try {
+        // Aggregate the total sum of salaries from all employees
+        const totalSalary = await Employee.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalSalary: { $sum: "$salary" }
+                }
+            }
+        ]);
+
+        // Send the total sum of salaries as response
+        if (totalSalary.length > 0) {
+            res.status(200).json({ totalSalary: totalSalary[0].totalSalary });
+        } else {
+            res.status(404).json({ message: 'No employees found' });
+        }
+    } catch (error) {
+        // Send an error response if something goes wrong
+        console.error('Error fetching total salary:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 module.exports = router;

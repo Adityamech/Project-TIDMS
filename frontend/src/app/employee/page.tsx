@@ -21,9 +21,7 @@ export default function Employee() {
               className='mr-5 cursor-pointer'
               onClick={() => setAddEmployee(false)}
             />
-            <h2 className='font-bold' style={{ marginBottom: '8px' }}>
-              Add Employee
-            </h2>
+            
           </div>
           <EmployeeDetails />
         </div>
@@ -40,18 +38,7 @@ export default function Employee() {
             >
               Add
             </Button>
-            <input
-              style={{ 
-                marginRight: "5px",
-                border: '1px solid #ccc',
-                borderRadius: '5px',
-                padding: '10px',
-              }}
-              type='text'
-              placeholder='Search Employee'
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            
           </div>
           <EmployeeList />
         </div>

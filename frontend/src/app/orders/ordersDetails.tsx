@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Snackbar } from '@mui/material';
+import { Snackbar,TextField } from '@mui/material';
 
 
 const OrdersDetails: React.FC = () => {
@@ -22,18 +22,17 @@ const OrdersDetails: React.FC = () => {
         productName: 'Grade 1',
         quantity : '',
         advance: '',
-        balance: '',
+        price: '',
         paymentStatus:'Pending',
         deliveryStatus:'Pending'
 
     });
 
 
-
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    
+    const [customerNumberError, setCustomerNumberError] = React.useState("");
 
 
 
@@ -52,6 +51,10 @@ const OrdersDetails: React.FC = () => {
         });
         
     }
+
+    
+
+
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
       };
@@ -79,6 +82,13 @@ const OrdersDetails: React.FC = () => {
             console.error(err);
         }
     }
+    const isSubmitDisabled = !formData.customerName || 
+                        formData.customerNumber.length !== 10  || 
+                        !formData.quantity || 
+                        !formData.advance || 
+                        !formData.price;
+
+
 
     const resetForm = () => {
         setFormData({
@@ -89,53 +99,158 @@ const OrdersDetails: React.FC = () => {
             productName: 'Grade 1',
             quantity : '',
             advance: '',
-            balance: '',
+            price: '',
             paymentStatus:'Pending',
             deliveryStatus:'Pending'
         });
     }
 
+    const validateCustomerNumber = (customerNumber: string) => {
+        const isValid = /^\d{10}$/.test(customerNumber);
+        if (customerNumber == "" || isValid) {
+          setCustomerNumberError("");
+          return false;
+        } else {
+          setCustomerNumberError("Mobile number must be 10 digits long.");
+          return true;
+        }
+      };
+
+   
     return (
-        <div style={{ width: '50%', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '0px', backgroundColor: '#f9f9f9' }}>
+        <div style={{ width: '50%', margin: 'auto', padding: '20px', borderRadius: '0px' }}>
             <h2 style={{ textAlign: 'center' }}>Order Details</h2>
             {successMessage && <p style={{ textAlign: 'center', color: 'green' }}>{successMessage}</p>}
             <form onSubmit={handleSubmit}>
                 
-                <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="customerName" style={{ fontSize: '18px' }}>Customer Name:</label><br />
-                    <input type="text" placeholder="Enter the Customer name" id="customerName" value={formData.customerName} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="customerNumber" style={{ fontSize: '18px' }}>Customer Phone Number:</label><br />
-                    <input type="text" placeholder="Enter the Customer Phone Number" id="customerNumber" value={formData.customerNumber} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="productName" style={{ fontSize: '18px' }}>Product Name:</label><br />
-                    <select id="productName" value={formData.productName} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }}>
-                        <option value="Grade 1">Grade 1</option>
-                        <option value="Grade 2">Grade 2</option>
-                        <option value="Grade 3">Grade 3</option>
-                        <option value="Grade 4">Grade 4</option>
-                        <option value="Grade 5">Grade 5</option>
-                        <option value="Grade 6">Grade 6</option>
-                        <option value="Grade 7">Grade 7</option>
-                        <option value="Green Tea">Green Tea</option>
-                    </select>
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="quantity" style={{ fontSize: '18px' }}>Quantity:</label><br />
-                    <input type="text" placeholder="Enter the Quantity" id="quantity" value={formData.quantity} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="advance" style={{ fontSize: '18px' }}>Advance:</label><br />
-                    <input type="number" placeholder="Enter the advance paid" id="advance" value={formData.advance} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                    <label htmlFor="balance" style={{ fontSize: '18px' }}>Balance:</label><br />
-                    <input type="number" placeholder="Enter the balance" id="balance" value={formData.balance} onChange={handleChange} style={{ fontSize:'15px', width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#f5f5f5' }} />
-                </div>
+            <TextField
+                  sx={{ height: "45px", borderRadius: "5px" }}
+                  label="Customer Name"
+                  color="success"
+                  placeholder="Enter customer name"
+                  focused
+                  name="Customer Name"
+                  size="small"
+                  value={formData.customerName}
+                  required
+                  onChange={(e) => {
+                   
+                    setFormData({ ...formData, customerName: e.target.value });
+                  }}
+                  fullWidth
+                  margin="normal"
+
+                />
+                <TextField
+                  sx={{ height: "65px", borderRadius: "5px" }}
+                  label="Customer Number"
+                  color="success"
+                  type='number'
+                  placeholder="Enter customer phone number"
+                  focused
+                  name="Customer Number"
+                  size="small"
+                  value={formData.customerNumber}
+                  required
+                  onChange={(e) => {
+                    const customerNumber = e.target.value;
+                    validateCustomerNumber(customerNumber);
+                    setFormData({ ...formData, customerNumber: e.target.value });
+                  }}
+                  fullWidth
+                  margin="normal"
+                  error={!!customerNumberError}
+                  helperText={customerNumberError}
+                />
+               
+    <TextField
+    sx={{height: "50px", borderRadius: "5px"}}
+        id="productName"
+        select
+        label="Product Name"
+        value={formData.productName}
+        onChange={handleChange}
+        fullWidth
+        variant="outlined"
+        size="small"
+        style={{ marginBottom: '20px' }}
+        InputProps={{
+            style: { fontSize: '15px', padding: '10px', borderRadius: '5px', backgroundColor: '#f5f5f5' }
+        }}
+        SelectProps={{
+            native: true
+        }}
+    >
+        <option value="Grade 1">Grade 1</option>
+        <option value="Grade 2">Grade 2</option>
+        <option value="Grade 3">Grade 3</option>
+        <option value="Grade 4">Grade 4</option>
+        <option value="Grade 5">Grade 5</option>
+        <option value="Grade 6">Grade 6</option>
+        <option value="Grade 7">Grade 7</option>
+        <option value="Green Tea">Green Tea</option>
+    </TextField>
+
+<TextField
+                  sx={{ height: "45px", borderRadius: "5px" }}
+                  label="Quantity"
+                  color="success"
+                  placeholder="Enter Quantity"
+                  type='number'
+                  focused
+                  name="Quantity"
+                  size="small"
+                  value={formData.quantity}
+                  required
+                  onChange={(e) => {
+                   
+                    setFormData({ ...formData, quantity: e.target.value });
+                  }}
+                  fullWidth
+                  margin="normal"
+
+                />
+                <TextField
+                  sx={{ height: "45px", borderRadius: "5px" }}
+                  label="Advance"
+                  color="success"
+                  placeholder="Advance paid"
+                  type='number'
+                  focused
+                  name="Advance"
+                  size="small"
+                  value={formData.advance}
+                  required
+                  onChange={(e) => {
+                   
+                    setFormData({ ...formData, advance: e.target.value });
+                  }}
+                  fullWidth
+                  margin="normal"
+
+                />
+                <TextField
+                  sx={{ height: "45px", borderRadius: "5px" }}
+                  label="Balance"
+                  color="success"
+                  placeholder="Balance to be paid"
+                  type='number'
+                  focused
+                  name="Balance"
+                  size="small"
+                  value={formData.price}
+                  required
+                  onChange={(e) => {
+                   
+                    setFormData({ ...formData, price: e.target.value });
+                  }}
+                  fullWidth
+                  margin="normal"
+
+                />
                 
-                <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '5px', border: 'none', backgroundColor: '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }} 
+                <button type="submit" style={{ width: '30%', marginLeft:"35%", padding: '10px', borderRadius: '5px', border: 'none',  backgroundColor: isSubmitDisabled ? '#ccc' : '#007bff', color: '#fff', cursor: 'pointer', fontSize: '18px' }} 
+                  disabled={isSubmitDisabled}
                   onClick={() => {
                     handleButtonClick();
                     router.push('/sales');

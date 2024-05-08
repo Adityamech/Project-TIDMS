@@ -21,7 +21,7 @@ export default function StickyHeadTable() {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedRow, setEditedRow] = useState(null);
-  const categoryOptions = ['manager', 'developer', 'tester'];
+  const categoryOptions = ['Manager', 'Assistant Manager', 'Operator', 'Labour'];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +74,12 @@ export default function StickyHeadTable() {
     setEditedRow(null);
   };
 
+  const confirmDelete = (row) => {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+      deleteRecord(row);
+    }
+  };
+
   const deleteRecord = async row => {
     try {
       const { empId } = row;
@@ -93,7 +99,7 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 1000 }}>
+            <TableContainer sx={{ maxHeight: "75vh "}}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -101,7 +107,7 @@ export default function StickyHeadTable() {
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Employee ID</TableCell>
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Name</TableCell>
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Phone Number</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Category</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Designation</TableCell>
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Salary</TableCell>
               <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Actions</TableCell>
             </TableRow>
@@ -114,9 +120,8 @@ export default function StickyHeadTable() {
                 </TableCell>
               </TableRow>
             ) : (
-              data
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .reverse()
+              [...data]
+              .reverse()
                 .map((row, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     <TableCell align="center" style={{ minWidth: 70 }}>
@@ -190,7 +195,7 @@ export default function StickyHeadTable() {
                             <div className='cursor-pointer #00FF00' onClick={() => editRecord(row)}>
                               <EditIcon />
                             </div>
-                            <div className='cursor-pointer #FF0000' onClick={() => deleteRecord(row)}>
+                            <div className='cursor-pointer #FF0000' onClick={() => confirmDelete(row)}>
                               <DeleteIcon />
                             </div>
                           </>
@@ -203,7 +208,7 @@ export default function StickyHeadTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
+      {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={data.length}
@@ -211,7 +216,7 @@ export default function StickyHeadTable() {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      /> */}
     </Paper>
   );
 }

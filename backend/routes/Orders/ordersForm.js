@@ -15,7 +15,7 @@ router.post("/orders-form", async(req, res)=> {
             productName: req.body.productName,
             quantity: req.body.quantity,
             advance: req.body.advance,
-            balance: req.body.balance,
+            price: req.body.price,
             paymentStatus: req.body.paymentStatus,
             deliveryStatus: req.body.deliveryStatus
         });
@@ -34,5 +34,32 @@ router.post("/orders-form", async(req, res)=> {
     }    
 
 })
+
+router.get("/total-quantity", async (req, res) => {
+    try {
+        // Aggregate the total sum of quantities from all orders
+        const totalQuantity = await Orders.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalQuantity: { $sum: "$quantity" }
+                }
+            }
+        ]);
+
+        // Send the total sum of quantities as response
+        if (totalQuantity.length > 0) {
+            res.status(200).json({ totalQuantity: totalQuantity[0].totalQuantity });
+        } else {
+            res.status(404).json({ message: 'No orders found' });
+        }
+    } catch (error) {
+        // Send an error response if something goes wrong
+        console.error('Error fetching total quantity:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 module.exports = router;
