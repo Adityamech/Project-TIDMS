@@ -109,7 +109,7 @@ export default function StickyHeadTable() {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden',marginTop:'25px' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <div style={{ textAlign: 'right', margin: '10px' }}>
         <button onClick={exportToExcel}>Export to Excel</button>
       </div>
@@ -117,16 +117,16 @@ export default function StickyHeadTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Date of order</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Customer Name</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Phone Number</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Product Name</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Quantity</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Advance</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Balance</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Payment Status</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Delivery status</TableCell>
-              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#CFDEB1' }}>Action</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151',color:'#ffffff',fontSize:'16px' }}>Date of order</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151',color:'#ffffff',fontSize:'16px' }}>Customer Name</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151',color:'#ffffff',fontSize:'16px' }}>Phone Number</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151',color:'#ffffff',fontSize:'16px' }}>Product Name</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151',color:'#ffffff' ,fontSize:'16px'}}>Quantity</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151' ,color:'#ffffff',fontSize:'16px'}}>Advance</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151' ,color:'#ffffff',fontSize:'16px'}}>Balance</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151' ,color:'#ffffff',fontSize:'16px'}}>Payment Status</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151',color:'#ffffff' ,fontSize:'16px'}}>Delivery status</TableCell>
+              <TableCell align="center" style={{ minWidth: 70, fontWeight: 'bold', backgroundColor: '#538151',color:'#ffffff' ,fontSize:'16px'}}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
